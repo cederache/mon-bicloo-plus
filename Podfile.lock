@@ -1,0 +1,20 @@
+PODS:
+  - Alamofire (5.2.1)
+  - Willow (5.2.1)
+
+DEPENDENCIES:
+  - Alamofire (~> 5.2)
+  - Willow (~> 5.0)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - Willow
+
+SPEC CHECKSUMS:
+  Alamofire: e911732990610fe89af59ac0077f923d72dc3dfd
+  Willow: a6310f9aedcb6f4de8c35b94fd3416a660ae9280
+
+PODFILE CHECKSUM: 26cf002ff0a5d4d5239bb04e6b05bff4e72782e5
+
+COCOAPODS: 1.8.4
