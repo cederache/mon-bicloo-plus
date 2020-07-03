@@ -11,6 +11,7 @@ import SwiftUI
 struct ListStationsView: View {
     @State var stations: [StationInformation] = []
     @State var favoritesStations: [StationInformation] = []
+    @State var searchQuery: String = ""
 
     func toggleFavorite(_ station: StationInformation) {
         if let favIndex = favoritesStations.firstIndex(where: { $0.id == station.id }) {
@@ -28,10 +29,15 @@ struct ListStationsView: View {
     var body: some View {
         NavigationView {
             VStack {
+                SearchBar(searchQuery: $searchQuery)
+
                 List {
-                    ForEach(self.stations.sorted(by: {
-                        $0.displayName < $1.displayName
-                    })) { (stationInformation: StationInformation) in
+                    ForEach(self.stations
+                        .filter({ searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased()) })
+                        .sorted(by: {
+                            $0.displayName < $1.displayName
+                        })
+                    ) { (stationInformation: StationInformation) in
                         NavigationLink(destination: StationView(stationInformation: stationInformation)) {
                             HStack {
                                 Text(stationInformation.displayName)
