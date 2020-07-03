@@ -7,11 +7,13 @@
 //
 
 import SwiftUI
+import SwiftUIRefresh
 
 struct ListStationsView: View {
     @State var stations: [StationInformation] = []
     @State var favoritesStations: [StationInformation] = []
     @State var searchQuery: String = ""
+    @State var showingRefreshView: Bool = false
 
     func toggleFavorite(_ station: StationInformation) {
         if let favIndex = favoritesStations.firstIndex(where: { $0.id == station.id }) {
@@ -24,6 +26,16 @@ struct ListStationsView: View {
 
     func isFavorite(_ station: StationInformation) -> Bool {
         favoritesStations.firstIndex(where: { $0.id == station.id }) != nil
+    }
+    
+    func fetchStations() {
+        showingRefreshView = true
+        ServerManager.Instance.FetchStations(onDone: { stations in
+            self.stations = stations
+            self.showingRefreshView = false
+        }) { _ in
+            logger.error("Can't fetch stations")
+        }
     }
 
     var body: some View {
@@ -56,12 +68,11 @@ struct ListStationsView: View {
                     }
                 }
             }
+            .pullToRefresh(isShowing: self.$showingRefreshView, onRefresh: {
+                self.fetchStations()
+            })
             .onAppear {
-                ServerManager.Instance.FetchStations(onDone: { stations in
-                    self.stations = stations
-                }) { _ in
-                    logger.error("Can't fetch stations")
-                }
+                self.fetchStations()
             }
             .navigationBarTitle("Stations")
         }

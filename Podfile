@@ -8,4 +8,5 @@ target 'mon-bicloo-plus' do
   # Pods for mon-bicloo-plus
   pod 'Alamofire', '~> 5.2'
   pod 'Willow', '~> 5.0'
+  pod 'SwiftUIRefresh'
 end
