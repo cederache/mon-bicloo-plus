@@ -38,21 +38,65 @@ class ServerManager {
     
     // MARK: - Stations
     private let staticStationsURL = "https://transport.data.gouv.fr/gbfs/nantes/station_information.json"
+    private let staticStationsStatusURL = "https://transport.data.gouv.fr/gbfs/nantes/station_status.json"
     
-    func FetchStations(onDone: @escaping ([Station]) -> Void, onError: @escaping (Error?) -> Void) {
+    func FetchStations(onDone: @escaping ([StationInformation]) -> Void, onError: @escaping (Error?) -> Void) {
         GET(staticStationsURL).response { response in
             self.GlobalHandler(response: response, onError: onError, onNoInternet: {
                 onDone([])
             }) { response in
                 // Init stations
                 let decoder = JSONDecoder()
-                // decoder.dateDecodingStrategy = .iso8601Full
                 do {
-                    logger.info(String(data: response.data ?? Data(), encoding: String.Encoding.utf8))
-                    let stationInformation = try decoder.decode(StationInformation.self, from: response.data ?? Data())
-                    onDone(stationInformation.data.stations)
+                    var stationsInformations = try decoder.decode(StationsInformations.self, from: response.data ?? Data()).data.stationsInformations
+                    
+                    self.GET(self.staticStationsStatusURL).response { response in
+                        self.GlobalHandler(response: response, onError: onError, onNoInternet: {
+                            onDone(stationsInformations)
+                        }) { response in
+                            // Init stations
+                            let decoder = JSONDecoder()
+                            do {
+                                let stationsStatus = try decoder.decode(StationsStatus.self, from: response.data ?? Data()).data.stationsStatus
+                                
+                                stationsInformations = stationsInformations.map({ (station: StationInformation) in
+                                    var stat = station
+                                    stat.status = stationsStatus.first(where: { (status: StationStatus) in
+                                        status.id == station.id
+                                    })
+                                    return stat
+                                })
+                                
+                                onDone(stationsInformations)
+                            } catch {
+                                logger.error("Error while create StationsStatus \(error)")
+                                logger.warn(String(data: response.data ?? Data(), encoding: String.Encoding.utf8))
+                                onError(error)
+                            }
+                        }
+                    }
                 } catch {
-                    logger.error("Error while create [Station] \(error)")
+                    logger.error("Error while create StationsInformations \(error)")
+                    logger.warn(String(data: response.data ?? Data(), encoding: String.Encoding.utf8))
+                    onError(error)
+                }
+            }
+        }
+    }
+    
+    
+    func FetchStationStatus(stationInformation: StationInformation, onDone: @escaping (StationStatus?) -> Void, onError: @escaping (Error?) -> Void) {
+        GET(staticStationsStatusURL).response { response in
+            self.GlobalHandler(response: response, onError: onError, onNoInternet: {
+                onDone(nil)
+            }) { response in
+                // Init stations
+                let decoder = JSONDecoder()
+                do {
+                    let stationsStatus = try decoder.decode(StationsStatus.self, from: response.data ?? Data())
+                    onDone(stationsStatus.data.stationsStatus.first(where: { $0.id == stationInformation.id }))
+                } catch {
+                    logger.error("Error while create StationsStatus \(error)")
                     logger.warn(String(data: response.data ?? Data(), encoding: String.Encoding.utf8))
                     onError(error)
                 }

@@ -8,10 +8,10 @@
 
 import Foundation
 
-struct StationInformation: Codable {
+struct StationsInformations: Codable {
     var ttl: Double
     var lastUpdate: Double
-    var data: StaticStations
+    var data: StaticStationsInformations
     
     enum CodingKeys: String, CodingKey {
         case ttl
@@ -20,17 +20,23 @@ struct StationInformation: Codable {
     }
 }
 
-struct StaticStations: Codable {
-    var stations: [Station]
+struct StaticStationsInformations: Codable {
+    var stationsInformations: [StationInformation]
+    
+    enum CodingKeys: String, CodingKey {
+        case stationsInformations = "stations"
+    }
 }
 
-struct Station: Codable, Identifiable {
+struct StationInformation: Codable, Identifiable, Equatable {
     var id: String
     var name: String
     var longitude: Double
     var latitude: Double
     var capacity: Int
     var address: String
+    
+    var status: StationStatus?
     
     enum CodingKeys: String, CodingKey {
         case id = "station_id"

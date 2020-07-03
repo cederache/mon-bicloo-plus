@@ -31,17 +31,20 @@ struct ListStationsView: View {
                 List {
                     ForEach(self.stations.sorted(by: {
                         $0.displayName < $1.displayName
-                    })) { stationInformation in
+                    })) { (stationInformation: StationInformation) in
                         NavigationLink(destination: StationView(stationInformation: stationInformation)) {
                             HStack {
                                 Text(stationInformation.displayName)
 
                                 Spacer()
 
-                                Image(systemName: self.isFavorite(stationInformation) ? "star.fill" : "star")
-                                    .onTapGesture {
-                                        self.toggleFavorite(stationInformation)
-                                    }
+                                if stationInformation.status == nil {
+                                    Text("-")
+                                    Text("-")
+                                } else {
+                                    Text("\(stationInformation.status?.nbBikesAvailable ?? 0)")
+                                    Text("\(stationInformation.status?.nbDocksAvailable ?? 0)")
+                                }
                             }
                         }
                     }
