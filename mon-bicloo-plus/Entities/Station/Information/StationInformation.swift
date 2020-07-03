@@ -38,6 +38,8 @@ struct StationInformation: Codable, Identifiable, Equatable {
     
     var status: StationStatus?
     
+    var isFavorite: Bool = false
+    
     enum CodingKeys: String, CodingKey {
         case id = "station_id"
         case name
@@ -51,5 +53,16 @@ struct StationInformation: Codable, Identifiable, Equatable {
         let regex = try! NSRegularExpression(pattern: "[0-9]{3}\\s?-\\s?")
         let range = NSMakeRange(0, name.count)
         return regex.stringByReplacingMatches(in: name, options: [], range: range, withTemplate: "")
+    }
+}
+
+extension StationInformation {
+    init() {
+        id = ""
+        name = ""
+        longitude = 0
+        latitude = 0
+        capacity = 0
+        address = ""
     }
 }

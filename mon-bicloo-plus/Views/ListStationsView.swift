@@ -10,24 +10,12 @@ import SwiftUI
 import SwiftUIRefresh
 
 struct ListStationsView: View {
-    @State var stations: [StationInformation] = []
-    @State var favoritesStations: [StationInformation] = []
+    @Binding var stations: [StationInformation]
+
     @State var searchQuery: String = ""
     @State var showingRefreshView: Bool = false
+    @State var expandAllStationsList: Bool = false
 
-    func toggleFavorite(_ station: StationInformation) {
-        if let favIndex = favoritesStations.firstIndex(where: { $0.id == station.id }) {
-            favoritesStations.remove(at: favIndex)
-        } else {
-            favoritesStations.append(station)
-            favoritesStations = favoritesStations.sorted(by: { $0.displayName < $1.displayName })
-        }
-    }
-
-    func isFavorite(_ station: StationInformation) -> Bool {
-        favoritesStations.firstIndex(where: { $0.id == station.id }) != nil
-    }
-    
     func fetchStations() {
         showingRefreshView = true
         ServerManager.Instance.FetchStations(onDone: { stations in
@@ -39,48 +27,54 @@ struct ListStationsView: View {
     }
 
     var body: some View {
-        NavigationView {
-            VStack {
-                SearchBar(searchQuery: $searchQuery)
+        VStack {
+            SearchBar(searchQuery: $searchQuery)
 
-                List {
-                    ForEach(self.stations
-                        .filter({ searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased()) })
-                        .sorted(by: {
-                            $0.displayName < $1.displayName
-                        })
-                    ) { (stationInformation: StationInformation) in
-                        NavigationLink(destination: StationView(stationInformation: stationInformation)) {
-                            HStack {
-                                Text(stationInformation.displayName)
-
-                                Spacer()
-
-                                if stationInformation.status == nil {
-                                    Text("-")
-                                    Text("-")
-                                } else {
-                                    Text("\(stationInformation.status?.nbBikesAvailable ?? 0)")
-                                    Text("\(stationInformation.status?.nbDocksAvailable ?? 0)")
-                                }
-                            }
-                        }
+            List {
+                if self.searchQuery != "" && self.stations
+                    .filter({ searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased()) }).count == 0 {
+                    HStack {
+                        Spacer()
+                        Text("Aucune station ne correspond à votre recherche")
+                            .italic()
+                            .disabled(true)
+                        Spacer()
+                    }
+                } else if self.stations.count == 0 {
+                    HStack {
+                        Spacer()
+                        Text("Aucune station à afficher")
+                            .italic()
+                        Spacer()
                     }
                 }
+
+                ForEach(self.stations
+                    .filter({ (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) })
+                    .sorted(by: {
+                        $0.displayName < $1.displayName
+                    })
+                ) { (stationInformation: StationInformation) in
+                    StationRow(stationInformation: self.$stations[self.stations.firstIndex(of: stationInformation) ?? 0], onTap: {
+                        if let stationIndex = self.stations.firstIndex(of: stationInformation) {
+                            self.stations[stationIndex].isFavorite.toggle()
+                        }
+                    })
+                }
             }
-            .pullToRefresh(isShowing: self.$showingRefreshView, onRefresh: {
-                self.fetchStations()
-            })
-            .onAppear {
-                self.fetchStations()
-            }
-            .navigationBarTitle("Stations")
         }
+        .pullToRefresh(isShowing: self.$showingRefreshView, onRefresh: {
+            self.fetchStations()
+        })
+        .onAppear {
+            self.fetchStations()
+        }
+        .navigationBarTitle("Stations favorites")
     }
 }
 
-struct Stations_Previews: PreviewProvider {
+struct ListStations_Previews: PreviewProvider {
     static var previews: some View {
-        ListStationsView()
+        ListStationsView(stations: .constant([StationInformation()]))
     }
 }
