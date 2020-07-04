@@ -12,11 +12,12 @@ import Network
 
 class ServerManager {
     // MARK: - Instance
+
     static let Instance = ServerManager()
     private(set) static var hasInternet = true
     private(set) static var forceNoInternet = false
     private(set) static var logServerRequest = true
-    
+
     let monitor = NWPathMonitor()
 
     private init() {
@@ -35,11 +36,12 @@ class ServerManager {
         }
         monitor.start(queue: DispatchQueue(label: "Monitor"))
     }
-    
+
     // MARK: - Stations
+
     private let staticStationsURL = "https://transport.data.gouv.fr/gbfs/nantes/station_information.json"
     private let staticStationsStatusURL = "https://transport.data.gouv.fr/gbfs/nantes/station_status.json"
-    
+
     func FetchStations(onDone: @escaping ([StationInformation]) -> Void, onError: @escaping (Error?) -> Void) {
         GET(staticStationsURL).response { response in
             self.GlobalHandler(response: response, onError: onError, onNoInternet: {
@@ -49,7 +51,7 @@ class ServerManager {
                 let decoder = JSONDecoder()
                 do {
                     var stationsInformations = try decoder.decode(StationsInformations.self, from: response.data ?? Data()).data.stationsInformations
-                    
+
                     self.GET(self.staticStationsStatusURL).response { response in
                         self.GlobalHandler(response: response, onError: onError, onNoInternet: {
                             onDone(stationsInformations)
@@ -58,7 +60,7 @@ class ServerManager {
                             let decoder = JSONDecoder()
                             do {
                                 let stationsStatus = try decoder.decode(StationsStatus.self, from: response.data ?? Data()).data.stationsStatus
-                                
+
                                 stationsInformations = stationsInformations.map({ (station: StationInformation) in
                                     var stat = station
                                     stat.status = stationsStatus.first(where: { (status: StationStatus) in
@@ -66,7 +68,7 @@ class ServerManager {
                                     })
                                     return stat
                                 })
-                                
+
                                 onDone(stationsInformations)
                             } catch {
                                 logger.error("Error while create StationsStatus \(error)")
@@ -83,8 +85,7 @@ class ServerManager {
             }
         }
     }
-    
-    
+
     func FetchStationStatus(stationInformation: StationInformation, onDone: @escaping (StationStatus?) -> Void, onError: @escaping (Error?) -> Void) {
         GET(staticStationsStatusURL).response { response in
             self.GlobalHandler(response: response, onError: onError, onNoInternet: {
@@ -103,8 +104,9 @@ class ServerManager {
             }
         }
     }
-    
+
     // MARK: - Global Methods
+
     func GlobalHandler(response: AFDataResponse<Data?>, autoLogged: Bool = false, onError: @escaping (Error?) -> Void, onNoInternet: @escaping () -> Void, onSuccess: @escaping (AFDataResponse<Data?>) -> Void) {
         if response.response == nil || response.error != nil || ServerManager.forceNoInternet {
             logger.error("Request error \(response.error?.errorDescription ?? "nil")")
@@ -130,8 +132,8 @@ class ServerManager {
             break
         }
     }
-    
-    func GET(_ route: String, single : Bool = false) -> DataRequest {
+
+    func GET(_ route: String, single: Bool = false) -> DataRequest {
         if ServerManager.logServerRequest {
             logger.info("GET on \(route)")
         }

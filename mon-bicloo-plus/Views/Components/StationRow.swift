@@ -11,7 +11,7 @@ import SwiftUI
 struct StationRow: View {
     @Binding var stationInformation: StationInformation
     var onTap: () -> Void
-    
+
     var body: some View {
         NavigationLink(destination: StationView(stationInformation: stationInformation)) {
             HStack {

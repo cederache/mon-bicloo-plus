@@ -112,7 +112,6 @@ struct SearchBarUIView: UIViewRepresentable {
     }
 }
 
-
 extension SearchBar {
     init(searchQuery: Binding<String>) {
         _searchQuery = searchQuery

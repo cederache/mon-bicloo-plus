@@ -14,34 +14,34 @@ struct StationView: View {
     var body: some View {
         VStack {
             Spacer()
-            
+
             Text(stationInformation.displayName)
-            
+
             Spacer()
-            
+
             Text(stationInformation.address)
-            
+
             Spacer()
-            
+
             if stationInformation.status == nil {
                 Text("Chargement...")
             } else {
                 Text("\(stationInformation.status!.nbBikesAvailable) vélo(s) disponible(s)")
                 Text("\(stationInformation.status!.nbDocksAvailable) place(s) disponible(s)")
             }
-            
+
             Spacer()
-            
+
             Button(action: {
                 // TODO: Add to bookmarks
             }) {
                 VStack {
                     Image(systemName: "star")
-                    
+
                     Text("Ajouter aux favoris")
                 }
             }
-            
+
             Spacer()
         }
         .navigationBarTitle(stationInformation.name)

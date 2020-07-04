@@ -12,7 +12,7 @@ struct StationsStatus: Codable {
     var ttl: Double
     var lastUpdate: Double
     var data: StaticStationsStatus
-    
+
     enum CodingKeys: String, CodingKey {
         case ttl
         case lastUpdate = "last_updated"
@@ -22,7 +22,7 @@ struct StationsStatus: Codable {
 
 struct StaticStationsStatus: Codable {
     var stationsStatus: [StationStatus]
-    
+
     enum CodingKeys: String, CodingKey {
         case stationsStatus = "stations"
     }
@@ -36,7 +36,7 @@ struct StationStatus: Codable, Identifiable, Equatable {
     var isReturning: Int
     var isRenting: Int
     var isInstalled: Int
-    
+
     enum CodingKeys: String, CodingKey {
         case id = "station_id"
         case nbDocksAvailable = "num_docks_available"

@@ -12,7 +12,7 @@ struct StationsInformations: Codable {
     var ttl: Double
     var lastUpdate: Double
     var data: StaticStationsInformations
-    
+
     enum CodingKeys: String, CodingKey {
         case ttl
         case lastUpdate = "last_updated"
@@ -22,7 +22,7 @@ struct StationsInformations: Codable {
 
 struct StaticStationsInformations: Codable {
     var stationsInformations: [StationInformation]
-    
+
     enum CodingKeys: String, CodingKey {
         case stationsInformations = "stations"
     }
@@ -35,11 +35,11 @@ struct StationInformation: Codable, Identifiable, Equatable {
     var latitude: Double
     var capacity: Int
     var address: String
-    
+
     var status: StationStatus?
-    
+
     var isFavorite: Bool = false
-    
+
     enum CodingKeys: String, CodingKey {
         case id = "station_id"
         case name
@@ -48,7 +48,7 @@ struct StationInformation: Codable, Identifiable, Equatable {
         case capacity
         case address
     }
-    
+
     var displayName: String {
         let regex = try! NSRegularExpression(pattern: "[0-9]{3}\\s?-\\s?")
         let range = NSMakeRange(0, name.count)
