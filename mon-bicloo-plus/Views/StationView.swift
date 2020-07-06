@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct StationView: View {
-    @State var stationInformation: StationInformation
+    @Binding var stationInformation: StationInformation
 
     var body: some View {
         VStack {
@@ -33,7 +33,8 @@ struct StationView: View {
             Spacer()
 
             Button(action: {
-                // TODO: Add to bookmarks
+                self.stationInformation.isFavorite.toggle()
+                self.stationInformation.save()
             }) {
                 VStack {
                     Image(systemName: "star")

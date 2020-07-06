@@ -7,20 +7,29 @@
 //
 
 import SwiftUI
-
 import SwiftUIRefresh
 
 struct FavoritesStationsView: View {
-    @State var stations: [StationInformation] = []
-
+    @EnvironmentObject var stationsStore: StationsStore
+    
     @State var searchQuery: String = ""
     @State var showingRefreshView: Bool = false
     @State var expandAllStationsList: Bool = false
 
     func fetchStations() {
+        stationsStore.fetch()
         showingRefreshView = true
         ServerManager.Instance.FetchStations(onDone: { stations in
-            self.stations = stations
+            for station in stations {
+                station.save()
+            }
+            
+            self.stationsStore.fetch()
+            
+            for station in stations {
+                self.stationsStore.stations.first(where: { $0.id == station.id })?.status = station.status
+            }
+            
             self.showingRefreshView = false
         }) { _ in
             logger.error("Can't fetch stations")
@@ -33,7 +42,7 @@ struct FavoritesStationsView: View {
                 SearchBar(searchQuery: $searchQuery)
 
                 List {
-                    if self.stations.filter({ $0.isFavorite }).count == 0 {
+                    if self.stationsStore.stations.filter({ $0.isFavorite }).count == 0 {
                         HStack {
                             Spacer()
                             Text("Aucune station favorite")
@@ -41,7 +50,7 @@ struct FavoritesStationsView: View {
                                 .disabled(true)
                             Spacer()
                         }
-                    } else if self.searchQuery != "" && self.stations
+                    } else if self.searchQuery != "" && self.stationsStore.stations
                         .filter({ $0.isFavorite && (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) }).count == 0 {
                         HStack {
                             Spacer()
@@ -50,7 +59,7 @@ struct FavoritesStationsView: View {
                                 .disabled(true)
                             Spacer()
                         }
-                    } else if self.stations.count == 0 {
+                    } else if self.stationsStore.stations.count == 0 {
                         HStack {
                             Spacer()
                             Text("Aucune station à afficher")
@@ -59,21 +68,21 @@ struct FavoritesStationsView: View {
                         }
                     }
 
-                    ForEach(self.stations
+                    ForEach(self.stationsStore.stations
                         .filter({ $0.isFavorite && (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) })
                         .sorted(by: {
                             $0.displayName < $1.displayName
                         })
                     ) { (stationInformation: StationInformation) in
-                        StationRow(stationInformation: self.$stations[self.stations.firstIndex(of: stationInformation) ?? 0], onTap: {
-                            if let stationIndex = self.stations.firstIndex(of: stationInformation) {
-                                self.stations[stationIndex].isFavorite.toggle()
+                        StationRow(stationInformation: self.$stationsStore.stations[self.stationsStore.stations.firstIndex(of: stationInformation) ?? 0], onTap: {
+                            if let stationIndex = self.stationsStore.stations.firstIndex(of: stationInformation) {
+                                self.stationsStore.stations[stationIndex].isFavorite.toggle()
                             }
                         })
                     }
                 }
 
-                NavigationLink(destination: ListStationsView(stations: self.$stations)) {
+                NavigationLink(destination: ListStationsView().environmentObject(self.stationsStore)) {
                     Text("Voir toutes les stations")
                 }
             }

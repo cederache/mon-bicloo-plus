@@ -62,12 +62,19 @@ class ServerManager {
                                 let stationsStatus = try decoder.decode(StationsStatus.self, from: response.data ?? Data()).data.stationsStatus
 
                                 stationsInformations = stationsInformations.map({ (station: StationInformation) in
-                                    var stat = station
+                                    let stat = station
                                     stat.status = stationsStatus.first(where: { (status: StationStatus) in
                                         status.id == station.id
                                     })
                                     return stat
                                 })
+                                
+                                let oldStations = DatabaseManager.Instance.realm.objects(StationInformation.self).toArray(ofType: StationInformation.self)
+                                for station in stationsInformations {
+                                    let oldStation = oldStations.first(where: { $0.id == station.id })
+                                    station.isFavorite = oldStation?.isFavorite ?? false
+                                    station.save()
+                                }
 
                                 onDone(stationsInformations)
                             } catch {

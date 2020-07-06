@@ -9,4 +9,5 @@ target 'mon-bicloo-plus' do
   pod 'Alamofire', '~> 5.2'
   pod 'Willow', '~> 5.0'
   pod 'SwiftUIRefresh'
+  pod 'RealmSwift', '~> 3.20'
 end

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 struct StationsInformations: Codable {
     var ttl: Double
@@ -28,41 +29,70 @@ struct StaticStationsInformations: Codable {
     }
 }
 
-struct StationInformation: Codable, Identifiable, Equatable {
-    var id: String
-    var name: String
-    var longitude: Double
-    var latitude: Double
-    var capacity: Int
-    var address: String
+class StationInformation: Object, EntitySafe, Codable, Identifiable {
+    @objc internal dynamic var _id: String = ""
+    @objc internal dynamic var _name: String = ""
+    @objc internal dynamic var _longitude: Double = 0
+    @objc internal dynamic var _latitude: Double = 0
+    @objc internal dynamic var _capacity: Int = 0
+    @objc internal dynamic var _address: String = ""
+    @objc internal dynamic var _isFavorite: Bool = false
 
     var status: StationStatus?
 
-    var isFavorite: Bool = false
+    override static func primaryKey() -> String? {
+        return "_id"
+    }
 
     enum CodingKeys: String, CodingKey {
-        case id = "station_id"
-        case name
-        case longitude = "lon"
-        case latitude = "lat"
-        case capacity
-        case address
+        case _id = "station_id"
+        case _name = "name"
+        case _longitude = "lon"
+        case _latitude = "lat"
+        case _capacity = "capacity"
+        case _address = "address"
+    }
+    
+    var id: String {
+        self.isInvalidated ? "" : _id
+    }
+    
+    var name: String {
+        self.isInvalidated ? "" : _name
+    }
+    
+    var longitude: Double {
+        self.isInvalidated ? 0 : _longitude
+    }
+    
+    var latitude: Double {
+        self.isInvalidated ? 0 : _latitude
+    }
+    
+    var capacity: Int {
+        self.isInvalidated ? 0 : _capacity
+    }
+    
+    var address: String {
+        self.isInvalidated ? "" : _address
+    }
+    
+    var isFavorite: Bool {
+        get {
+            self.isInvalidated ? false : _isFavorite
+        }
+        set {
+            if !self.isInvalidated {
+                self.modify {
+                    _isFavorite = newValue
+                }
+            }
+        }
     }
 
     var displayName: String {
         let regex = try! NSRegularExpression(pattern: "[0-9]{3}\\s?-\\s?")
         let range = NSMakeRange(0, name.count)
         return regex.stringByReplacingMatches(in: name, options: [], range: range, withTemplate: "")
-    }
-}
-
-extension StationInformation {
-    init() {
-        id = ""
-        name = ""
-        longitude = 0
-        latitude = 0
-        capacity = 0
-        address = ""
     }
 }

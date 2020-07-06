@@ -10,16 +10,26 @@ import SwiftUI
 import SwiftUIRefresh
 
 struct ListStationsView: View {
-    @Binding var stations: [StationInformation]
+    @EnvironmentObject var stationsStore: StationsStore
 
     @State var searchQuery: String = ""
     @State var showingRefreshView: Bool = false
     @State var expandAllStationsList: Bool = false
 
     func fetchStations() {
+        stationsStore.fetch()
         showingRefreshView = true
         ServerManager.Instance.FetchStations(onDone: { stations in
-            self.stations = stations
+            for station in stations {
+                station.save()
+            }
+            
+            self.stationsStore.fetch()
+            
+            for station in stations {
+                self.stationsStore.stations.first(where: { $0.id == station.id })?.status = station.status
+            }
+            
             self.showingRefreshView = false
         }) { _ in
             logger.error("Can't fetch stations")
@@ -31,7 +41,7 @@ struct ListStationsView: View {
             SearchBar(searchQuery: $searchQuery)
 
             List {
-                if self.searchQuery != "" && self.stations
+                if self.searchQuery != "" && self.stationsStore.stations
                     .filter({ searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased()) }).count == 0 {
                     HStack {
                         Spacer()
@@ -40,7 +50,7 @@ struct ListStationsView: View {
                             .disabled(true)
                         Spacer()
                     }
-                } else if self.stations.count == 0 {
+                } else if self.stationsStore.stations.count == 0 {
                     HStack {
                         Spacer()
                         Text("Aucune station à afficher")
@@ -49,16 +59,16 @@ struct ListStationsView: View {
                     }
                 }
 
-                ForEach(self.stations
+                ForEach(self.stationsStore.stations
                     .filter({ (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) })
                     .sorted(by: {
                         $0.displayName < $1.displayName
                     })
                 ) { (stationInformation: StationInformation) in
-                    StationRow(stationInformation: self.$stations[self.stations.firstIndex(of: stationInformation) ?? 0], onTap: {
-                        if let stationIndex = self.stations.firstIndex(of: stationInformation) {
-                            self.stations[stationIndex].isFavorite.toggle()
-                        }
+                    StationRow(stationInformation: self.$stationsStore.stations[self.stationsStore.stations.firstIndex(of: stationInformation) ?? 0], onTap: {
+                        stationInformation.isFavorite.toggle()
+                        stationInformation.save()
+                        self.stationsStore.fetch()
                     })
                 }
             }
@@ -69,12 +79,13 @@ struct ListStationsView: View {
         .onAppear {
             self.fetchStations()
         }
-        .navigationBarTitle("Stations favorites")
+        .navigationBarTitle("Toutes les stations")
     }
 }
 
 struct ListStations_Previews: PreviewProvider {
     static var previews: some View {
-        ListStationsView(stations: .constant([StationInformation()]))
+        ListStationsView()
+            .environmentObject(StationsStore.Instance)
     }
 }

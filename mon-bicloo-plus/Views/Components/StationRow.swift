@@ -13,7 +13,7 @@ struct StationRow: View {
     var onTap: () -> Void
 
     var body: some View {
-        NavigationLink(destination: StationView(stationInformation: stationInformation)) {
+        NavigationLink(destination: StationView(stationInformation: $stationInformation)) {
             HStack {
                 Image(systemName: stationInformation.isFavorite ? "star.fill" : "star")
                     .foregroundColor(stationInformation.isFavorite ? .yellow : .primary)
