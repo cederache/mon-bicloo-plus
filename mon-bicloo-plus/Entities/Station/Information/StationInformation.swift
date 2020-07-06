@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MapKit
 import RealmSwift
 
 struct StationsInformations: Codable {
@@ -94,5 +95,9 @@ class StationInformation: Object, EntitySafe, Codable, Identifiable {
         let regex = try! NSRegularExpression(pattern: "[0-9]{3}\\s?-\\s?")
         let range = NSMakeRange(0, name.count)
         return regex.stringByReplacingMatches(in: name, options: [], range: range, withTemplate: "")
+    }
+    
+    var coordinate2D: CLLocationCoordinate2D {
+        CLLocation(latitude: latitude, longitude: longitude).coordinate
     }
 }

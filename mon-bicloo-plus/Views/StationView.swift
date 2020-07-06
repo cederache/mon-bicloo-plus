@@ -11,54 +11,74 @@ import SwiftUI
 struct StationView: View {
     @EnvironmentObject var stationsStore: StationsStore
     @Binding var stationInformation: StationInformation
+    @State var annotations: [Checkpoint] = []
+    @State var loadingMapView: Bool = true
+
+    func initAnnotations() {
+        annotations = [Checkpoint(title: stationInformation.displayName, coordinate: stationInformation.coordinate2D)]
+    }
 
     var body: some View {
         VStack {
-            Spacer()
+            HStack {
+                Text(stationInformation.displayName)
+                    .font(.largeTitle)
+                Spacer()
+            }
 
-            Text(stationInformation.displayName)
+            HStack {
+                Spacer()
 
-            Spacer()
+                if stationInformation.status == nil {
+                    Text("-")
+                } else {
+                    HStack {
+                        Text("\(stationInformation.status?.nbBikesAvailable ?? 0)")
+                        Image(systemName: "v.circle")
+                            .padding(.trailing, 10)
+
+                        Text("\(stationInformation.status?.nbDocksAvailable ?? 0)")
+                        Image(systemName: "p.circle")
+                    }
+                    .font(.headline)
+                }
+
+                Spacer()
+
+                Button(action: {
+                    self.stationInformation.isFavorite.toggle()
+                    self.stationInformation.save()
+                    self.stationsStore.fetch()
+                }) {
+                    Image(systemName: self.stationInformation.isFavorite ? "star.fill" : "star")
+                        .foregroundColor(self.stationInformation.isFavorite ? .yellow : .blue)
+                }
+
+                Spacer()
+            }
 
             Text(stationInformation.address)
+                .padding(.bottom, 10)
 
-            Spacer()
-
-            if stationInformation.status == nil {
-                Text("Chargement...")
-            } else {
-                Text("\(stationInformation.status!.nbBikesAvailable) vélo(s) disponible(s)")
-                Text("\(stationInformation.status!.nbDocksAvailable) place(s) disponible(s)")
-            }
-
-            Spacer()
-
-            Button(action: {
-                self.stationInformation.isFavorite.toggle()
-                self.stationInformation.save()
-                self.stationsStore.fetch()
-            }) {
-                VStack {
-                    Image(systemName: "star")
-                        .foregroundColor(self.stationInformation.isFavorite ? .yellow : .blue)
-                    
-                    if self.stationInformation.isFavorite {
-                        Text("Retirer des favoris")
-                    } else {
-                        Text("Ajouter aux favoris")
-                    }
+            ZStack {
+                MapView(checkpoints: self.$annotations, loadingMapView: $loadingMapView)
+                
+                if loadingMapView {
+                    ActivityIndicator(isAnimating: .constant(true))
                 }
             }
-
-            Spacer()
+            .onAppear {
+                self.initAnnotations()
+            }
         }
-        .navigationBarTitle(stationInformation.name)
+        .padding(10)
+        .navigationBarTitle("Station")
     }
 }
 
-//
-// struct StationView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        StationView (stationInformation: StationInformation(id: "id", name: "name", longitude: 0, latitude: 0, capacity: 0, address: "address"))
-//    }
-// }
+struct StationView_Previews: PreviewProvider {
+    static var previews: some View {
+        StationView(stationInformation: .constant(StationInformation()))
+            .environmentObject(StationsStore.Instance)
+    }
+}
