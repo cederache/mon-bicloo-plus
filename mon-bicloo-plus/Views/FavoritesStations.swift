@@ -14,9 +14,13 @@ struct FavoritesStationsView: View {
     
     @State var searchQuery: String = ""
     @State var showingRefreshView: Bool = false
-    @State var expandAllStationsList: Bool = false
+    @State var firstStationsFetch: Bool = true
 
-    func fetchStations() {
+    func fetchStationsAtStart() {
+        if !firstStationsFetch {
+            return
+        }
+        
         stationsStore.fetch()
         showingRefreshView = true
         ServerManager.Instance.FetchStations(onDone: { stations in
@@ -33,6 +37,22 @@ struct FavoritesStationsView: View {
             self.showingRefreshView = false
         }) { _ in
             logger.error("Can't fetch stations")
+        }
+    }
+    
+    func fetchStatus() {
+        stationsStore.fetch()
+        showingRefreshView = true
+        ServerManager.Instance.FetchStationsStatus(onDone: { status in
+            self.stationsStore.fetch()
+            
+            for station in self.stationsStore.stations {
+                station.status = status.first(where: { $0.id == station.id })
+            }
+            
+            self.showingRefreshView = false
+        }) { _ in
+            logger.error("Can't fetch status")
         }
     }
 
@@ -75,9 +95,9 @@ struct FavoritesStationsView: View {
                         })
                     ) { (stationInformation: StationInformation) in
                         StationRow(stationInformation: self.$stationsStore.stations[self.stationsStore.stations.firstIndex(of: stationInformation) ?? 0], onTap: {
-                            if let stationIndex = self.stationsStore.stations.firstIndex(of: stationInformation) {
-                                self.stationsStore.stations[stationIndex].isFavorite.toggle()
-                            }
+                            stationInformation.isFavorite.toggle()
+                            stationInformation.save()
+                            self.stationsStore.fetch()
                         })
                     }
                 }
@@ -87,10 +107,10 @@ struct FavoritesStationsView: View {
                 }
             }
             .pullToRefresh(isShowing: self.$showingRefreshView, onRefresh: {
-                self.fetchStations()
+                self.fetchStatus()
             })
             .onAppear {
-                self.fetchStations()
+                self.fetchStationsAtStart()
             }
             .navigationBarTitle("Stations favorites")
         }

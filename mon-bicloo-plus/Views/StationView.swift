@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct StationView: View {
+    @EnvironmentObject var stationsStore: StationsStore
     @Binding var stationInformation: StationInformation
 
     var body: some View {
@@ -35,11 +36,17 @@ struct StationView: View {
             Button(action: {
                 self.stationInformation.isFavorite.toggle()
                 self.stationInformation.save()
+                self.stationsStore.fetch()
             }) {
                 VStack {
                     Image(systemName: "star")
-
-                    Text("Ajouter aux favoris")
+                        .foregroundColor(self.stationInformation.isFavorite ? .yellow : .blue)
+                    
+                    if self.stationInformation.isFavorite {
+                        Text("Retirer des favoris")
+                    } else {
+                        Text("Ajouter aux favoris")
+                    }
                 }
             }
 

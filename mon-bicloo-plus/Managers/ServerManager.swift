@@ -52,38 +52,24 @@ class ServerManager {
                 do {
                     var stationsInformations = try decoder.decode(StationsInformations.self, from: response.data ?? Data()).data.stationsInformations
 
-                    self.GET(self.staticStationsStatusURL).response { response in
-                        self.GlobalHandler(response: response, onError: onError, onNoInternet: {
-                            onDone(stationsInformations)
-                        }) { response in
-                            // Init stations
-                            let decoder = JSONDecoder()
-                            do {
-                                let stationsStatus = try decoder.decode(StationsStatus.self, from: response.data ?? Data()).data.stationsStatus
-
-                                stationsInformations = stationsInformations.map({ (station: StationInformation) in
-                                    let stat = station
-                                    stat.status = stationsStatus.first(where: { (status: StationStatus) in
-                                        status.id == station.id
-                                    })
-                                    return stat
-                                })
-                                
-                                let oldStations = DatabaseManager.Instance.realm.objects(StationInformation.self).toArray(ofType: StationInformation.self)
-                                for station in stationsInformations {
-                                    let oldStation = oldStations.first(where: { $0.id == station.id })
-                                    station.isFavorite = oldStation?.isFavorite ?? false
-                                    station.save()
-                                }
-
-                                onDone(stationsInformations)
-                            } catch {
-                                logger.error("Error while create StationsStatus \(error)")
-                                logger.warn(String(data: response.data ?? Data(), encoding: String.Encoding.utf8))
-                                onError(error)
-                            }
+                    self.FetchStationsStatus(onDone: { (stationsStatus) in
+                        stationsInformations = stationsInformations.map({ (station: StationInformation) in
+                            let stat = station
+                            stat.status = stationsStatus.first(where: { (status: StationStatus) in
+                                status.id == station.id
+                            })
+                            return stat
+                        })
+                        
+                        let oldStations = DatabaseManager.Instance.realm.objects(StationInformation.self).toArray(ofType: StationInformation.self)
+                        for station in stationsInformations {
+                            let oldStation = oldStations.first(where: { $0.id == station.id })
+                            station.isFavorite = oldStation?.isFavorite ?? false
+                            station.save()
                         }
-                    }
+
+                        onDone(stationsInformations)
+                    }, onError: onError)
                 } catch {
                     logger.error("Error while create StationsInformations \(error)")
                     logger.warn(String(data: response.data ?? Data(), encoding: String.Encoding.utf8))
@@ -93,16 +79,16 @@ class ServerManager {
         }
     }
 
-    func FetchStationStatus(stationInformation: StationInformation, onDone: @escaping (StationStatus?) -> Void, onError: @escaping (Error?) -> Void) {
+    func FetchStationsStatus(onDone: @escaping ([StationStatus]) -> Void, onError: @escaping (Error?) -> Void) {
         GET(staticStationsStatusURL).response { response in
             self.GlobalHandler(response: response, onError: onError, onNoInternet: {
-                onDone(nil)
+                onDone([])
             }) { response in
                 // Init stations
                 let decoder = JSONDecoder()
                 do {
                     let stationsStatus = try decoder.decode(StationsStatus.self, from: response.data ?? Data())
-                    onDone(stationsStatus.data.stationsStatus.first(where: { $0.id == stationInformation.id }))
+                    onDone(stationsStatus.data.stationsStatus)
                 } catch {
                     logger.error("Error while create StationsStatus \(error)")
                     logger.warn(String(data: response.data ?? Data(), encoding: String.Encoding.utf8))

@@ -14,25 +14,20 @@ struct ListStationsView: View {
 
     @State var searchQuery: String = ""
     @State var showingRefreshView: Bool = false
-    @State var expandAllStationsList: Bool = false
 
-    func fetchStations() {
+    func fetchStatus() {
         stationsStore.fetch()
         showingRefreshView = true
-        ServerManager.Instance.FetchStations(onDone: { stations in
-            for station in stations {
-                station.save()
-            }
-            
+        ServerManager.Instance.FetchStationsStatus(onDone: { status in
             self.stationsStore.fetch()
             
-            for station in stations {
-                self.stationsStore.stations.first(where: { $0.id == station.id })?.status = station.status
+            for station in self.stationsStore.stations {
+                station.status = status.first(where: { $0.id == station.id })
             }
             
             self.showingRefreshView = false
         }) { _ in
-            logger.error("Can't fetch stations")
+            logger.error("Can't fetch status")
         }
     }
 
@@ -74,10 +69,10 @@ struct ListStationsView: View {
             }
         }
         .pullToRefresh(isShowing: self.$showingRefreshView, onRefresh: {
-            self.fetchStations()
+            self.fetchStatus()
         })
         .onAppear {
-            self.fetchStations()
+            self.fetchStatus()
         }
         .navigationBarTitle("Toutes les stations")
     }

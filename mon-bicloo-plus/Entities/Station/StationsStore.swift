@@ -16,13 +16,14 @@ class StationsStore: ObservableObject {
     private init() {}
 
     func fetch() {
+        let tmpStations = stations
         stations = DatabaseManager.Instance.realm.objects(StationInformation.self).toArray(ofType: StationInformation.self)
-/*        let tmpStations = stations
+        
+        // Retrieve previous status from stations
         for station in stations {
             let tmpStation = tmpStations.first(where: { $0.id == station.id })
             station.status = tmpStation?.status
-            station.isFavorite = tmpStation?.isFavorite ?? false
             station.save()
-        }*/
+        }
     }
 }
