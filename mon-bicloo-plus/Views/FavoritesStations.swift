@@ -15,6 +15,8 @@ struct FavoritesStationsView: View {
     @State var searchQuery: String = ""
     @State var showingRefreshView: Bool = false
     @State var firstStationsFetch: Bool = true
+    
+    let loopCallTime = 5.0;
 
     func fetchStationsAtStart() {
         if !firstStationsFetch {
@@ -35,12 +37,15 @@ struct FavoritesStationsView: View {
             }
             
             self.showingRefreshView = false
+            
+            // Launch fetch status loop
+            self.fetchStatus(true)
         }) { _ in
             logger.error("Can't fetch stations")
         }
     }
     
-    func fetchStatus() {
+    func fetchStatus(_ loopCalls: Bool = false) {
         stationsStore.fetch()
         showingRefreshView = true
         ServerManager.Instance.FetchStationsStatus(onDone: { status in
@@ -51,6 +56,12 @@ struct FavoritesStationsView: View {
             }
             
             self.showingRefreshView = false
+            
+            if loopCalls {
+                DispatchQueue.main.asyncAfter(deadline: .now() + self.loopCallTime, execute: {
+                    self.fetchStatus(loopCalls)
+                })
+            }
         }) { _ in
             logger.error("Can't fetch status")
         }
