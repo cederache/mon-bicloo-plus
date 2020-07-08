@@ -30,6 +30,16 @@ struct StaticStationsInformations: Codable {
     }
 }
 
+class StationAnnotation: NSObject, MKAnnotation {
+    let title: String?
+    let coordinate: CLLocationCoordinate2D
+
+    init(title: String?, latitude: Double, longitude: Double) {
+        self.title = title
+        self.coordinate = CLLocation(latitude: latitude, longitude: longitude).coordinate
+    }
+}
+
 class StationInformation: Object, EntitySafe, Codable, Identifiable {
     @objc internal dynamic var _id: String = ""
     @objc internal dynamic var _name: String = ""
@@ -97,7 +107,7 @@ class StationInformation: Object, EntitySafe, Codable, Identifiable {
         return regex.stringByReplacingMatches(in: name, options: [], range: range, withTemplate: "")
     }
     
-    var coordinate2D: CLLocationCoordinate2D {
-        CLLocation(latitude: latitude, longitude: longitude).coordinate
+    var annotation: StationAnnotation {
+        return StationAnnotation(title: name, latitude: latitude, longitude: longitude)
     }
 }

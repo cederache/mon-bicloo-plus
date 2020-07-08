@@ -15,3 +15,14 @@ import RealmSwift
     var id: String { get }
     var isInvalidated: Bool { get }
 }
+
+extension EntitySafe {
+    static func randomString(length: Int) -> String {
+        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        return String((0 ..< length).map { _ in letters.randomElement()! })
+    }
+    
+    static func newId() -> String {
+        return randomString(length: 42)
+    }
+}

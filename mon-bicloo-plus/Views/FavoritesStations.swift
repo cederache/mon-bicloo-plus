@@ -11,52 +11,56 @@ import SwiftUIRefresh
 
 struct FavoritesStationsView: View {
     @EnvironmentObject var stationsStore: StationsStore
-    
+    @EnvironmentObject var stationsGroupsStore: StationsGroupsStore
+
     @State var searchQuery: String = ""
     @State var showingRefreshView: Bool = false
     @State var firstStationsFetch: Bool = true
-    
-    let loopCallTime = 5.0;
+    @State var stationsGroupViewPresented: Bool = false
+
+    let loopCallTime = 5.0
 
     func fetchStationsAtStart() {
         if !firstStationsFetch {
             return
         }
-        
+
         stationsStore.fetch()
+        stationsGroupsStore.fetch()
         showingRefreshView = true
         ServerManager.Instance.FetchStations(onDone: { stations in
             for station in stations {
                 station.save()
             }
-            
+
             self.stationsStore.fetch()
-            
+            self.stationsGroupsStore.fetch()
+
             for station in stations {
                 self.stationsStore.stations.first(where: { $0.id == station.id })?.status = station.status
             }
-            
+
             self.showingRefreshView = false
-            
+
             // Launch fetch status loop
             self.fetchStatus(true)
         }) { _ in
             logger.error("Can't fetch stations")
         }
     }
-    
+
     func fetchStatus(_ loopCalls: Bool = false) {
         stationsStore.fetch()
         showingRefreshView = true
         ServerManager.Instance.FetchStationsStatus(onDone: { status in
             self.stationsStore.fetch()
-            
+
             for station in self.stationsStore.stations {
                 station.status = status.first(where: { $0.id == station.id })
             }
-            
+
             self.showingRefreshView = false
-            
+
             if loopCalls {
                 DispatchQueue.main.asyncAfter(deadline: .now() + self.loopCallTime, execute: {
                     self.fetchStatus(loopCalls)
@@ -66,6 +70,42 @@ struct FavoritesStationsView: View {
             logger.error("Can't fetch status")
         }
     }
+    
+    func stationsGroupRow(_ stationsGroup: StationsGroup) -> some View {
+        if self.searchQuery != "" && stationsGroup.stations
+            .filter({ (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) }).count == 0 {
+            return HStack {
+                Spacer()
+                Text("Aucune station ne correspond à votre recherche")
+                    .italic()
+                    .disabled(true)
+                Spacer()
+            }
+            .eraseToAnyView()
+        } else if stationsGroup.stations.count == 0 {
+            return HStack {
+                Spacer()
+                Text("Aucune station dans ce groupe")
+                    .italic()
+                Spacer()
+            }
+            .eraseToAnyView()
+        } else {
+            return ForEach(stationsGroup.stations
+                .filter({ (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) })
+                .sorted(by: {
+                    $0.displayName < $1.displayName
+                })
+            ) { (stationInformation: StationInformation) in
+                StationRow(stationInformation: self.$stationsStore.stations[self.stationsStore.stations.firstIndex(of: stationInformation) ?? 0], onTap: {
+                    stationInformation.isFavorite.toggle()
+                    stationInformation.save()
+                    self.stationsStore.fetch()
+                })
+            }
+            .eraseToAnyView()
+        }
+    }
 
     var body: some View {
         NavigationView {
@@ -73,44 +113,29 @@ struct FavoritesStationsView: View {
                 SearchBar(searchQuery: $searchQuery)
 
                 List {
-                    if self.stationsStore.stations.filter({ $0.isFavorite }).count == 0 {
-                        HStack {
-                            Spacer()
-                            Text("Aucune station favorite")
-                                .italic()
-                                .disabled(true)
-                            Spacer()
-                        }
-                    } else if self.searchQuery != "" && self.stationsStore.stations
-                        .filter({ $0.isFavorite && (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) }).count == 0 {
-                        HStack {
-                            Spacer()
-                            Text("Aucune station ne correspond à votre recherche")
-                                .italic()
-                                .disabled(true)
-                            Spacer()
-                        }
-                    } else if self.stationsStore.stations.count == 0 {
-                        HStack {
-                            Spacer()
-                            Text("Aucune station à afficher")
-                                .italic()
-                            Spacer()
+                    ForEach(stationsGroupsStore.stationsGroups) { stationsGroup in
+                        Section(header: Text(stationsGroup.name)) {
+                            self.stationsGroupRow(stationsGroup)
                         }
                     }
-
-                    ForEach(self.stationsStore.stations
-                        .filter({ $0.isFavorite && (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) })
-                        .sorted(by: {
-                            $0.displayName < $1.displayName
-                        })
-                    ) { (stationInformation: StationInformation) in
-                        StationRow(stationInformation: self.$stationsStore.stations[self.stationsStore.stations.firstIndex(of: stationInformation) ?? 0], onTap: {
-                            stationInformation.isFavorite.toggle()
-                            stationInformation.save()
-                            self.stationsStore.fetch()
-                        })
+                    Section(header: Text("Favorites")) {
+                        ForEach(self.stationsStore.stations
+                            .filter({ $0.isFavorite && (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) })
+                            .sorted(by: {
+                                $0.displayName < $1.displayName
+                            })
+                        ) { (stationInformation: StationInformation) in
+                            StationRow(stationInformation: self.$stationsStore.stations[self.stationsStore.stations.firstIndex(of: stationInformation) ?? 0], onTap: {
+                                stationInformation.isFavorite.toggle()
+                                stationInformation.save()
+                                self.stationsStore.fetch()
+                            })
+                        }
                     }
+                }
+                .sheet(isPresented: $stationsGroupViewPresented) {
+                    StationsGroupView()
+                        .environmentObject(self.stationsGroupsStore)
                 }
 
                 NavigationLink(destination: ListStationsView().environmentObject(self.stationsStore)) {
@@ -124,6 +149,11 @@ struct FavoritesStationsView: View {
                 self.fetchStationsAtStart()
             }
             .navigationBarTitle("Stations favorites")
+            .navigationBarItems(trailing: Button(action: {
+                self.stationsGroupViewPresented = true
+            }) {
+                Image(systemName: "gear")
+            })
         }
     }
 }

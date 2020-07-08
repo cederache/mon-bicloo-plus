@@ -11,12 +11,7 @@ import SwiftUI
 struct StationView: View {
     @EnvironmentObject var stationsStore: StationsStore
     @Binding var stationInformation: StationInformation
-    @State var annotations: [Checkpoint] = []
     @State var loadingMapView: Bool = true
-
-    func initAnnotations() {
-        annotations = [Checkpoint(title: stationInformation.displayName, coordinate: stationInformation.coordinate2D)]
-    }
 
     var body: some View {
         VStack {
@@ -61,14 +56,11 @@ struct StationView: View {
                 .padding(.bottom, 10)
 
             ZStack {
-                MapView(checkpoints: self.$annotations, loadingMapView: $loadingMapView)
+                MapView(checkpoints: [self.stationInformation.annotation], loadingMapView: $loadingMapView)
                 
                 if loadingMapView {
                     ActivityIndicator(isAnimating: .constant(true))
                 }
-            }
-            .onAppear {
-                self.initAnnotations()
             }
         }
         .padding(10)

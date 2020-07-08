@@ -9,20 +9,10 @@
 import MapKit
 import SwiftUI
 
-class Checkpoint: NSObject, MKAnnotation {
-    let title: String?
-    let coordinate: CLLocationCoordinate2D
-
-    init(title: String?, coordinate: CLLocationCoordinate2D) {
-        self.title = title
-        self.coordinate = coordinate
-    }
-}
-
 struct MapView: UIViewRepresentable {
     typealias UIViewType = MKMapView
 
-    @Binding var checkpoints: [Checkpoint]
+    @State var checkpoints: [StationAnnotation]
     @Binding var loadingMapView: Bool
 
     var locationManager = CLLocationManager()
