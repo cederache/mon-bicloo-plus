@@ -16,7 +16,7 @@ class ServerManager {
     static let Instance = ServerManager()
     private(set) static var hasInternet = true
     private(set) static var forceNoInternet = false
-    private(set) static var logServerRequest = true
+    private(set) static var logServerRequest = false
 
     let monitor = NWPathMonitor()
 
