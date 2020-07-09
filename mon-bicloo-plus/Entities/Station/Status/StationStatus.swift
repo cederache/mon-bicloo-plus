@@ -9,7 +9,7 @@
 import Foundation
 
 struct StationsStatus: Codable {
-    var ttl: Double
+    var ttl: Double?
     var lastUpdate: Double
     var data: StaticStationsStatus
 
