@@ -109,9 +109,21 @@ struct FavoritesStationsView: View {
                 SearchBar(searchQuery: $searchQuery)
 
                 List {
-                    ForEach(stationsGroupsStore.stationsGroups) { stationsGroup in
-                        Section(header: Text(stationsGroup.name)) {
-                            self.stationsGroupRow(stationsGroup)
+                    if stationsGroupsStore.stationsGroups.count == 0 {
+                        HStack {
+                            Spacer()
+                            Text("Aucun groupe n'est défini")
+                                .italic()
+                                .onTapGesture {
+                                    self.stationsGroupViewPresented = true
+                                }
+                            Spacer()
+                        }
+                    } else {
+                        ForEach(stationsGroupsStore.stationsGroups) { stationsGroup in
+                            Section(header: Text(stationsGroup.name)) {
+                                self.stationsGroupRow(stationsGroup)
+                            }
                         }
                     }
                 }
