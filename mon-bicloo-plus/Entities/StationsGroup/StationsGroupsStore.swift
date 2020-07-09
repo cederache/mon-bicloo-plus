@@ -16,12 +16,6 @@ class StationsGroupsStore: ObservableObject {
     private init() {}
 
     func fetch() {
-        let tmpStationsGroup = stationsGroups
         stationsGroups = DatabaseManager.Instance.realm.objects(StationsGroup.self).toArray(ofType: StationsGroup.self)
-        stationsGroups = stationsGroups.map({ stationsGroup in
-            let oldStationsGroup = tmpStationsGroup.first(where: { $0.id == stationsGroup.id })
-            stationsGroup.stations = oldStationsGroup?.stations ?? []
-            return stationsGroup
-        })
     }
 }

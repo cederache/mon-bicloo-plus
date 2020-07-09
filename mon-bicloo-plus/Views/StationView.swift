@@ -10,8 +10,11 @@ import SwiftUI
 
 struct StationView: View {
     @EnvironmentObject var stationsStore: StationsStore
+    @EnvironmentObject var stationsGroupStore: StationsGroupsStore
+    
     @Binding var stationInformation: StationInformation
     @State var loadingMapView: Bool = true
+    @State var stationsGroupViewPresented: Bool = false
 
     var body: some View {
         VStack {
@@ -39,21 +42,13 @@ struct StationView: View {
                 }
 
                 Spacer()
-
-                Button(action: {
-                    self.stationInformation.isFavorite.toggle()
-                    self.stationInformation.save()
-                    self.stationsStore.fetch()
-                }) {
-                    Image(systemName: self.stationInformation.isFavorite ? "star.fill" : "star")
-                        .foregroundColor(self.stationInformation.isFavorite ? .yellow : .blue)
-                }
-
-                Spacer()
             }
 
-            Text(stationInformation.address)
-                .padding(.bottom, 10)
+            Button(action: {
+                self.stationsGroupViewPresented = true
+            }) {
+                Text("Ajouter dans un groupe")
+            }
 
             ZStack {
                 MapView(checkpoints: [self.stationInformation.annotation], loadingMapView: $loadingMapView)
@@ -61,6 +56,18 @@ struct StationView: View {
                 if loadingMapView {
                     ActivityIndicator(isAnimating: .constant(true))
                 }
+            }
+            .sheet(isPresented: $stationsGroupViewPresented) {
+                StationsGroupsView(canEdit: false, onStationsGroupSelected: { stationsGroupSelected in
+                    if stationsGroupSelected.stations.firstIndex(of: self.stationInformation) != nil {
+                        stationsGroupSelected.removeStation(self.stationInformation)
+                    } else {
+                        stationsGroupSelected.addStation(self.stationInformation)
+                    }
+                    stationsGroupSelected.save()
+                    self.stationsGroupViewPresented = false
+                })
+                    .environmentObject(self.stationsGroupStore)
             }
         }
         .padding(10)

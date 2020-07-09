@@ -14,7 +14,7 @@ class StationsGroup: Object, EntitySafe, Codable, Identifiable {
     @objc internal dynamic var _name: String = ""
     @objc internal dynamic var _index: Int = 0
     @objc internal dynamic var _sortMode: Int = 0
-    internal var _stationsIds = List<String>()
+    @objc internal dynamic var _stationsIds: String = ""
 
     private var _stations: [StationInformation] = []
 
@@ -72,30 +72,40 @@ class StationsGroup: Object, EntitySafe, Codable, Identifiable {
             }
         }
     }
-
+    
     var stationsIds: [String] {
-        isInvalidated ? [] : _stationsIds.toArray(ofType: String.self)
+        let jsonDecoder = JSONDecoder()
+        return (try? jsonDecoder.decode([String].self, from: _stationsIds.data(using: String.Encoding.utf8) ?? Data())) ?? []
+    }
+
+    func addStation(_ station: StationInformation) {
+        self.modify {
+            var tmpStationsIds = stationsIds
+            tmpStationsIds.append(station.id)
+            let jsonEncoder = JSONEncoder()
+            _stationsIds = String(data: (try? jsonEncoder.encode(tmpStationsIds)) ?? Data(), encoding: String.Encoding.utf8) ?? "[]"
+        }
+        self.save()
+    }
+
+    func removeStation(_ station: StationInformation) {
+        self.modify {
+            var tmpStationsIds = stationsIds
+            tmpStationsIds.removeAll(where: { $0 == station.id })
+            let jsonEncoder = JSONEncoder()
+            _stationsIds = String(data: (try? jsonEncoder.encode(tmpStationsIds)) ?? Data(), encoding: String.Encoding.utf8) ?? "[]"
+        }
+        self.save()
     }
 
     var stations: [StationInformation] {
-        get {
-            if isInvalidated {
-                return []
-            }
-            if _stations == [] {
-                _stations = DatabaseManager.Instance.realm.objects(StationInformation.self).filterIn(fieldName: "_id", values: _stationsIds.toArray(ofType: String.self)).toArray(ofType: StationInformation.self)
-            }
-            return _stations
+        if isInvalidated {
+            return []
         }
-        set {
-            if !isInvalidated {
-                self.modify {
-                    _stations = newValue
-                    _stationsIds = List<String>()
-                    _stationsIds.append(objectsIn: _stations.map({ $0.id }))
-                }
-            }
+        if _stations == [] {
+            _stations = DatabaseManager.Instance.realm.objects(StationInformation.self).filterIn(fieldName: "_id", values: stationsIds).toArray(ofType: StationInformation.self)
         }
+        return _stations
     }
 }
 

@@ -47,9 +47,8 @@ class StationInformation: Object, EntitySafe, Codable, Identifiable {
     @objc internal dynamic var _latitude: Double = 0
     @objc internal dynamic var _capacity: Int = 0
     @objc internal dynamic var _address: String = ""
-    @objc internal dynamic var _isFavorite: Bool = false
 
-    var status: StationStatus?
+    var status: StationStatus? = nil
 
     override static func primaryKey() -> String? {
         return "_id"
@@ -86,19 +85,6 @@ class StationInformation: Object, EntitySafe, Codable, Identifiable {
     
     var address: String {
         self.isInvalidated ? "" : _address
-    }
-    
-    var isFavorite: Bool {
-        get {
-            self.isInvalidated ? false : _isFavorite
-        }
-        set {
-            if !self.isInvalidated {
-                self.modify {
-                    _isFavorite = newValue
-                }
-            }
-        }
     }
 
     var displayName: String {

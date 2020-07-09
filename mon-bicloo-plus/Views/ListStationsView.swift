@@ -60,11 +60,7 @@ struct ListStationsView: View {
                         $0.displayName < $1.displayName
                     })
                 ) { (stationInformation: StationInformation) in
-                    StationRow(stationInformation: self.$stationsStore.stations[self.stationsStore.stations.firstIndex(of: stationInformation) ?? 0], onTap: {
-                        stationInformation.isFavorite.toggle()
-                        stationInformation.save()
-                        self.stationsStore.fetch()
-                    })
+                    StationRow(stationInformation: self.$stationsStore.stations[self.stationsStore.stations.firstIndex(of: stationInformation) ?? 0])
                 }
             }
         }

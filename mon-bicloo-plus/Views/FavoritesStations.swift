@@ -70,9 +70,9 @@ struct FavoritesStationsView: View {
             logger.error("Can't fetch status")
         }
     }
-    
+
     func stationsGroupRow(_ stationsGroup: StationsGroup) -> some View {
-        if self.searchQuery != "" && stationsGroup.stations
+        if searchQuery != "" && stationsGroup.stations
             .filter({ (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) }).count == 0 {
             return HStack {
                 Spacer()
@@ -97,11 +97,7 @@ struct FavoritesStationsView: View {
                     $0.displayName < $1.displayName
                 })
             ) { (stationInformation: StationInformation) in
-                StationRow(stationInformation: self.$stationsStore.stations[self.stationsStore.stations.firstIndex(of: stationInformation) ?? 0], onTap: {
-                    stationInformation.isFavorite.toggle()
-                    stationInformation.save()
-                    self.stationsStore.fetch()
-                })
+                StationRow(stationInformation: self.$stationsStore.stations[self.stationsStore.stations.firstIndex(of: stationInformation) ?? 0])
             }
             .eraseToAnyView()
         }
@@ -118,23 +114,10 @@ struct FavoritesStationsView: View {
                             self.stationsGroupRow(stationsGroup)
                         }
                     }
-                    Section(header: Text("Favorites")) {
-                        ForEach(self.stationsStore.stations
-                            .filter({ $0.isFavorite && (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) })
-                            .sorted(by: {
-                                $0.displayName < $1.displayName
-                            })
-                        ) { (stationInformation: StationInformation) in
-                            StationRow(stationInformation: self.$stationsStore.stations[self.stationsStore.stations.firstIndex(of: stationInformation) ?? 0], onTap: {
-                                stationInformation.isFavorite.toggle()
-                                stationInformation.save()
-                                self.stationsStore.fetch()
-                            })
-                        }
-                    }
                 }
+                .listStyle(PlainListStyle())
                 .sheet(isPresented: $stationsGroupViewPresented) {
-                    StationsGroupView()
+                    StationsGroupsView(canEdit: true)
                         .environmentObject(self.stationsGroupsStore)
                 }
 
@@ -144,6 +127,7 @@ struct FavoritesStationsView: View {
             }
             .pullToRefresh(isShowing: self.$showingRefreshView, onRefresh: {
                 self.fetchStatus()
+                self.stationsGroupsStore.fetch()
             })
             .onAppear {
                 self.fetchStationsAtStart()

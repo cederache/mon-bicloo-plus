@@ -10,17 +10,10 @@ import SwiftUI
 
 struct StationRow: View {
     @Binding var stationInformation: StationInformation
-    var onTap: () -> Void
 
     var body: some View {
         NavigationLink(destination: StationView(stationInformation: $stationInformation)) {
             HStack {
-                Image(systemName: stationInformation.isFavorite ? "star.fill" : "star")
-                    .foregroundColor(stationInformation.isFavorite ? .yellow : .primary)
-                    .onTapGesture {
-                        self.onTap()
-                    }
-
                 Text(stationInformation.displayName)
 
                 Spacer()
@@ -42,8 +35,6 @@ struct StationRow: View {
 
 struct StationRow_Previews: PreviewProvider {
     static var previews: some View {
-        StationRow(stationInformation: .constant(StationInformation())) {
-            logger.debug("Station row tapped")
-        }
+        StationRow(stationInformation: .constant(StationInformation()))
     }
 }

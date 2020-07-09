@@ -58,15 +58,9 @@ class ServerManager {
                             stat.status = stationsStatus.first(where: { (status: StationStatus) in
                                 status.id == station.id
                             })
+                            stat.save()
                             return stat
                         })
-                        
-                        let oldStations = DatabaseManager.Instance.realm.objects(StationInformation.self).toArray(ofType: StationInformation.self)
-                        for station in stationsInformations {
-                            let oldStation = oldStations.first(where: { $0.id == station.id })
-                            station.isFavorite = oldStation?.isFavorite ?? false
-                            station.save()
-                        }
 
                         onDone(stationsInformations)
                     }, onError: onError)
