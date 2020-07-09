@@ -78,7 +78,6 @@ struct FavoritesStationsView: View {
                 Spacer()
                 Text("Aucune station ne correspond à votre recherche")
                     .italic()
-                    .disabled(true)
                 Spacer()
             }
             .eraseToAnyView()
@@ -148,7 +147,10 @@ struct FavoritesStationsView: View {
             .navigationBarItems(trailing: Button(action: {
                 self.stationsGroupViewPresented = true
             }) {
-                Image(systemName: "gear")
+                HStack {
+                    Image(systemName: "gear")
+                    Text("Groupes")
+                }
             })
         }
     }
