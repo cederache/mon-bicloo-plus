@@ -37,7 +37,7 @@ struct FavoritesStationsView: View {
             self.stationsGroupsStore.fetch()
 
             for station in stations {
-                self.stationsStore.stations.first(where: { $0.id == station.id })?.status = station.status
+                self.stationsStore.stationInformations.first(where: { $0.id == station.id })?.status = station.status
             }
 
             self.showingRefreshView = false
@@ -55,8 +55,8 @@ struct FavoritesStationsView: View {
         ServerManager.Instance.FetchStationsStatus(onDone: { status in
             self.stationsStore.fetch()
 
-            for station in self.stationsStore.stations {
-                station.status = status.first(where: { $0.id == station.id })
+            for stationInformation in self.stationsStore.stationInformations {
+                stationInformation.status = status.first(where: { $0.id == stationInformation.id })
             }
 
             self.showingRefreshView = false
@@ -96,7 +96,7 @@ struct FavoritesStationsView: View {
                     $0.displayName < $1.displayName
                 })
             ) { (stationInformation: StationInformation) in
-                StationRow(stationInformation: self.$stationsStore.stations[self.stationsStore.stations.firstIndex(of: stationInformation) ?? 0])
+                StationRow(stationInformation: self.$stationsStore.stationInformations[self.stationsStore.stationInformations.firstIndex(of: stationInformation) ?? 0])
             }
             .eraseToAnyView()
         }

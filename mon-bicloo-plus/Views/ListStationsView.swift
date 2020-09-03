@@ -14,17 +14,25 @@ struct ListStationsView: View {
 
     @State var searchQuery: String = ""
     @State var showingRefreshView: Bool = false
+    @State var loadingMapView: Bool = true
+
+    @State var displayMode: DisplayMode = .List
+
+    enum DisplayMode {
+        case List
+        case Map
+    }
 
     func fetchStatus() {
         stationsStore.fetch()
         showingRefreshView = true
         ServerManager.Instance.FetchStationsStatus(onDone: { status in
             self.stationsStore.fetch()
-            
-            for station in self.stationsStore.stations {
+
+            for station in self.stationsStore.stationInformations {
                 station.status = status.first(where: { $0.id == station.id })
             }
-            
+
             self.showingRefreshView = false
         }) { _ in
             logger.error("Can't fetch status")
@@ -35,42 +43,65 @@ struct ListStationsView: View {
         VStack {
             SearchBar(searchQuery: $searchQuery)
 
-            List {
-                if self.searchQuery != "" && self.stationsStore.stations
-                    .filter({ searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased()) }).count == 0 {
-                    HStack {
-                        Spacer()
-                        Text("Aucune station ne correspond à votre recherche")
-                            .italic()
-                            .disabled(true)
-                        Spacer()
+            if displayMode == .List {
+                List {
+                    if self.searchQuery != "" && self.stationsStore.stationInformations
+                        .filter({ searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased()) }).count == 0 {
+                        HStack {
+                            Spacer()
+                            Text("Aucune station ne correspond à votre recherche")
+                                .italic()
+                                .disabled(true)
+                            Spacer()
+                        }
+                    } else if self.stationsStore.stationInformations.count == 0 {
+                        HStack {
+                            Spacer()
+                            Text("Aucune station à afficher")
+                                .italic()
+                            Spacer()
+                        }
                     }
-                } else if self.stationsStore.stations.count == 0 {
-                    HStack {
-                        Spacer()
-                        Text("Aucune station à afficher")
-                            .italic()
-                        Spacer()
-                    }
-                }
 
-                ForEach(self.stationsStore.stations
-                    .filter({ (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) })
-                    .sorted(by: {
-                        $0.displayName < $1.displayName
-                    })
-                ) { (stationInformation: StationInformation) in
-                    StationRow(stationInformation: self.$stationsStore.stations[self.stationsStore.stations.firstIndex(of: stationInformation) ?? 0])
+                    ForEach(self.stationsStore.stationInformations
+                        .filter({ (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) })
+                        .sorted(by: {
+                            $0.displayName < $1.displayName
+                        })
+                    ) { (stationInformation: StationInformation) in
+                        StationRow(stationInformation: self.$stationsStore.stationInformations[self.stationsStore.stationInformations.firstIndex(of: stationInformation) ?? 0])
+                    }
                 }
+                .pullToRefresh(isShowing: self.$showingRefreshView, onRefresh: {
+                    self.fetchStatus()
+                })
+                .transition(.move(edge: .leading))
+            } else if displayMode == .Map {
+                ZStack {
+                    MapView(checkpoints: self.stationsStore.stationInformations
+                        .filter({ (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) })
+                        .map({ $0.annotation }), loadingMapView: $loadingMapView)
+
+                    if loadingMapView {
+                        ActivityIndicator(isAnimating: .constant(true))
+                    }
+                }
+                .transition(.move(edge: .trailing))
             }
         }
-        .pullToRefresh(isShowing: self.$showingRefreshView, onRefresh: {
-            self.fetchStatus()
-        })
         .onAppear {
             self.fetchStatus()
         }
         .navigationBarTitle("Toutes les stations")
+        .navigationBarItems(trailing:
+            Button(action: {
+                withAnimation {
+                    self.displayMode = self.displayMode == .List ? .Map : .List
+                }
+            }) {
+                Image(systemName: self.displayMode == .List ? "map.fill" : "list.bullet")
+            }
+        )
     }
 }
 

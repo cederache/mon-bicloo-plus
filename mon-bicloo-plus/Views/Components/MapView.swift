@@ -2,71 +2,40 @@
 //  MapView.swift
 //  mon-bicloo-plus
 //
-//  Created by Cédric Derache on 06/07/2020.
+//  Created by Cédric Derache on 02/09/2020.
 //  Copyright © 2020 Cédric Derache. All rights reserved.
 //
 
-import MapKit
 import SwiftUI
 
-struct MapView: UIViewRepresentable {
-    typealias UIViewType = MKMapView
-
-    @State var checkpoints: [StationAnnotation]
+struct MapView: View {
+    var checkpoints: [StationAnnotation]
     @Binding var loadingMapView: Bool
-
-    var locationManager = CLLocationManager()
-    func setupManager() {
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
+    var displayMode: DisplayMode = .Bike
+    @State var showDisplayModeSwitch: Bool = false
+    
+    enum DisplayMode {
+        case Bike
+        case Docks
     }
-
-    func makeUIView(context: Context) -> MKMapView {
-        setupManager()
-
-        let mapView = MKMapView(frame: UIScreen.main.bounds)
-        mapView.delegate = context.coordinator
-        mapView.showsCompass = true
-        mapView.showsUserLocation = true
-        mapView.userTrackingMode = .none
-        return mapView
-    }
-
-    func updateUIView(_ uiView: MKMapView, context: Context) {
-        let hasUserLocationAnnotation = uiView.annotations.filter({ $0.isKind(of: MKUserLocation.self) }).count > 0
-
-        if uiView.annotations.filter({ !$0.isKind(of: MKUserLocation.self) }).count == 0 ||
-            checkpoints.count != uiView.annotations.filter({ !$0.isKind(of: MKUserLocation.self) }).count ||
-            hasUserLocationAnnotation && uiView.tag == 0 {
-            uiView.tag = hasUserLocationAnnotation ? 1 : uiView.tag
+    
+    var body: some View {
+        ZStack {
+            MapViewRepresentable(checkpoints: checkpoints, loadingMapView: $loadingMapView, displayMode: displayMode)
             
-            // Remove all annotations except user location
-            uiView.removeAnnotations(uiView.annotations.filter({ !$0.isKind(of: MKUserLocation.self) }))
-            uiView.addAnnotations(checkpoints)
-            uiView.showAnnotations(uiView.annotations, animated: true)
-            print("Updating map \(uiView.tag) \(hasUserLocationAnnotation)")
+            if (showDisplayModeSwitch) {
+                HStack {
+                    Image(systemName: "v.circle")
+                    Toggle(isOn: $showDisplayModeSwitch) { Text("") }
+                    Image(systemName: "p.circle")
+                }
+            }
         }
     }
+}
 
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self, loadingMapView: $loadingMapView)
-    }
-
-    class Coordinator: NSObject, MKMapViewDelegate {
-        var mapView: MapView
-        var loadingMapView: Binding<Bool>
-
-        init(_ mapView: MapView, loadingMapView: Binding<Bool>) {
-            self.mapView = mapView
-            self.loadingMapView = loadingMapView
-        }
-
-        func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotationView) {
-            logger.debug("Did select annotation \(String(describing: annotation.annotation?.title))")
-        }
-
-        func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-            loadingMapView.wrappedValue = false
-        }
+struct MapView_Previews: PreviewProvider {
+    static var previews: some View {
+        MapView(checkpoints: [], loadingMapView: .constant(false))
     }
 }

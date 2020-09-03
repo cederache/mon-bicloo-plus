@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct StationsStatus: Codable {
     var ttl: Double?
@@ -45,5 +46,41 @@ struct StationStatus: Codable, Identifiable, Equatable {
         case isReturning = "is_returning"
         case isRenting = "is_renting"
         case isInstalled = "is_installed"
+    }
+    
+    var nbDocksAvailableColor: Color {
+        if nbDocksAvailable == 0 {
+            return Color.red
+        } else if nbDocksAvailable <= 3 {
+            return Color.orange
+        }
+        return Color.green
+    }
+    
+    var nbDocksAvailableUIColor: UIColor {
+        if nbDocksAvailable == 0 {
+            return UIColor.red
+        } else if nbDocksAvailable <= 3 {
+            return UIColor.orange
+        }
+        return UIColor.green
+    }
+    
+    var nbBikesAvailableColor: Color {
+        if nbBikesAvailable == 0 {
+            return Color.red
+        } else if nbBikesAvailable <= 3 {
+            return Color.orange
+        }
+        return Color.green
+    }
+    
+    var nbBikesAvailableUIColor: UIColor {
+        if nbBikesAvailable == 0 {
+            return UIColor.red
+        } else if nbBikesAvailable <= 3 {
+            return UIColor.orange
+        }
+        return UIColor.green
     }
 }

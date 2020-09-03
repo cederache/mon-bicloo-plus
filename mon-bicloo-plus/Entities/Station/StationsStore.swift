@@ -11,16 +11,16 @@ import Foundation
 class StationsStore: ObservableObject {
     static let Instance = StationsStore()
 
-    @Published var stations: [StationInformation] = []
+    @Published var stationInformations: [StationInformation] = []
 
     private init() {}
 
     func fetch() {
-        let tmpStations = stations
-        stations = DatabaseManager.Instance.realm.objects(StationInformation.self).toArray(ofType: StationInformation.self)
+        let tmpStations = stationInformations
+        stationInformations = DatabaseManager.Instance.realm.objects(StationInformation.self).toArray(ofType: StationInformation.self)
         
         // Retrieve previous status from stations
-        for station in stations {
+        for station in stationInformations {
             let tmpStation = tmpStations.first(where: { $0.id == station.id })
             station.status = tmpStation?.status
             station.save()

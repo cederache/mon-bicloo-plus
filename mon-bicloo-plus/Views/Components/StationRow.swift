@@ -8,6 +8,47 @@
 
 import SwiftUI
 
+struct StationStatusView: View {
+    var stationInformation: StationInformation
+    @State var withUnavailableDocks: Bool = false
+    @State var withSpacers: Bool = false
+
+    var body: some View {
+        HStack(spacing: 10) {
+            if withSpacers {
+                Spacer()
+            }
+            if stationInformation.status == nil {
+                Text("-")
+            } else {
+                Group {
+                    Text("\(stationInformation.status?.nbBikesAvailable ?? 0)")
+                    Image(systemName: "v.circle")
+                }
+                .foregroundColor(stationInformation.status?.nbBikesAvailableColor ?? Color.primary)
+                
+                Group {
+                    Text("\(stationInformation.status?.nbDocksAvailable ?? 0)")
+                    Image(systemName: "p.circle")
+                }
+                .foregroundColor(stationInformation.status?.nbDocksAvailableColor ?? Color.primary)
+                
+                if withUnavailableDocks {
+                    Group {
+                        Text("\(stationInformation.nbDocksOoo)")
+                        Image(systemName: "bolt.circle")
+                    }
+                    .foregroundColor(.yellow)
+                }
+            }
+            
+            if withSpacers {
+                Spacer()
+            }
+        }
+    }
+}
+
 struct StationRow: View {
     @Binding var stationInformation: StationInformation
 
@@ -17,17 +58,8 @@ struct StationRow: View {
                 Text(stationInformation.displayName)
 
                 Spacer()
-
-                if stationInformation.status == nil {
-                    Text("-")
-                } else {
-                    Text("\(stationInformation.status?.nbBikesAvailable ?? 0)")
-                    Image(systemName: "v.circle")
-                        .padding(.trailing, 10)
-
-                    Text("\(stationInformation.status?.nbDocksAvailable ?? 0)")
-                    Image(systemName: "p.circle")
-                }
+                
+                StationStatusView(stationInformation: stationInformation)
             }
         }
     }

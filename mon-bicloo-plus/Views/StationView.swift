@@ -24,25 +24,7 @@ struct StationView: View {
                 Spacer()
             }
 
-            HStack {
-                Spacer()
-
-                if stationInformation.status == nil {
-                    Text("-")
-                } else {
-                    HStack {
-                        Text("\(stationInformation.status?.nbBikesAvailable ?? 0)")
-                        Image(systemName: "v.circle")
-                            .padding(.trailing, 10)
-
-                        Text("\(stationInformation.status?.nbDocksAvailable ?? 0)")
-                        Image(systemName: "p.circle")
-                    }
-                    .font(.headline)
-                }
-
-                Spacer()
-            }
+            StationStatusView(stationInformation: stationInformation, withUnavailableDocks: true, withSpacers: true)
 
             Button(action: {
                 self.stationsGroupViewPresented = true

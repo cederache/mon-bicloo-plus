@@ -33,10 +33,12 @@ struct StaticStationsInformations: Codable {
 class StationAnnotation: NSObject, MKAnnotation {
     let title: String?
     let coordinate: CLLocationCoordinate2D
+    let stationInformation: StationInformation
 
-    init(title: String?, latitude: Double, longitude: Double) {
+    init(title: String?, latitude: Double, longitude: Double, stationInformation: StationInformation) {
         self.title = title
         self.coordinate = CLLocation(latitude: latitude, longitude: longitude).coordinate
+        self.stationInformation = stationInformation
     }
 }
 
@@ -94,6 +96,13 @@ class StationInformation: Object, EntitySafe, Codable, Identifiable {
     }
     
     var annotation: StationAnnotation {
-        return StationAnnotation(title: name, latitude: latitude, longitude: longitude)
+        return StationAnnotation(title: name, latitude: latitude, longitude: longitude, stationInformation: self)
+    }
+    
+    var nbDocksOoo: Int {
+        if status == nil {
+            return 0
+        }
+        return capacity - status!.nbDocksAvailable - status!.nbBikesAvailable
     }
 }
