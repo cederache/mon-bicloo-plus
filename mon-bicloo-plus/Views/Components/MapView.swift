@@ -11,23 +11,42 @@ import SwiftUI
 struct MapView: View {
     var checkpoints: [StationAnnotation]
     @Binding var loadingMapView: Bool
-    var displayMode: DisplayMode = .Bike
+    @State var showCallout: Bool = false
     @State var showDisplayModeSwitch: Bool = false
+    @State private var displayModeDocks: Bool = false
     
     enum DisplayMode {
         case Bike
         case Docks
     }
-    
+
     var body: some View {
         ZStack {
-            MapViewRepresentable(checkpoints: checkpoints, loadingMapView: $loadingMapView, displayMode: displayMode)
-            
-            if (showDisplayModeSwitch) {
-                HStack {
-                    Image(systemName: "v.circle")
-                    Toggle(isOn: $showDisplayModeSwitch) { Text("") }
-                    Image(systemName: "p.circle")
+            MapViewRepresentable(checkpoints: checkpoints, loadingMapView: $loadingMapView, showCallout: showCallout, displayMode: displayModeDocks ? .Docks : .Bike)
+
+            if showDisplayModeSwitch {
+                VStack {
+                    HStack {
+                        HStack {
+                            Image(systemName: "v.circle")
+                                .foregroundColor(displayModeDocks ? .secondary : .primary)
+                                .padding(.leading, 10)
+                            
+                            Toggle(isOn: $displayModeDocks) { EmptyView() }
+                                .labelsHidden()
+                                .toggleStyle(ColoredToggleStyle())
+                            
+                            Image(systemName: "p.circle")
+                                .foregroundColor(displayModeDocks ? .primary : .secondary)
+                                .padding(.trailing, 10)
+                        }
+                        .padding(.bottom, 5)
+                        .background(Color.background)
+                        .cornerRadius(15, corners: [.bottomRight])
+                        
+                        Spacer()
+                    }
+                    Spacer()
                 }
             }
         }
@@ -36,6 +55,6 @@ struct MapView: View {
 
 struct MapView_Previews: PreviewProvider {
     static var previews: some View {
-        MapView(checkpoints: [], loadingMapView: .constant(false))
+        MapView(checkpoints: [], loadingMapView: .constant(false), showDisplayModeSwitch: true)
     }
 }

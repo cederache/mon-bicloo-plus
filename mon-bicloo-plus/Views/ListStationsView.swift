@@ -80,7 +80,10 @@ struct ListStationsView: View {
                 ZStack {
                     MapView(checkpoints: self.stationsStore.stationInformations
                         .filter({ (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) })
-                        .map({ $0.annotation }), loadingMapView: $loadingMapView)
+                        .map({ $0.annotation }), loadingMapView: $loadingMapView, showCallout: true, showDisplayModeSwitch: true)
+                        .onAppear {
+                            self.showStation = false
+                        }
 
                     if loadingMapView {
                         ActivityIndicator(isAnimating: .constant(true))
@@ -102,6 +105,7 @@ struct ListStationsView: View {
                 Image(systemName: self.displayMode == .List ? "map.fill" : "list.bullet")
             }
         )
+        .edgesIgnoringSafeArea([.bottom])
     }
 }
 
