@@ -18,6 +18,9 @@ struct ListStationsView: View {
 
     @State var displayMode: DisplayMode = .List
 
+    @State var selectedStationInformation: StationInformation = StationInformation()
+    @State var showStation: Bool = false
+
     enum DisplayMode {
         case List
         case Map
@@ -78,9 +81,17 @@ struct ListStationsView: View {
                 .transition(.move(edge: .leading))
             } else if displayMode == .Map {
                 ZStack {
+                    NavigationLink(destination: StationView(stationInformation: $selectedStationInformation), isActive: $showStation) {
+                        EmptyView()
+                    }
+                    .hidden()
+
                     MapView(checkpoints: self.stationsStore.stationInformations
                         .filter({ (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) })
-                        .map({ $0.annotation }), loadingMapView: $loadingMapView, showCallout: true, showDisplayModeSwitch: true)
+                        .map({ $0.annotation }), loadingMapView: $loadingMapView, showCallout: true, showDisplayModeSwitch: true, showStation: { (stationInformation: StationInformation) in
+                            self.selectedStationInformation = stationInformation
+                            self.showStation = true
+                        })
                         .onAppear {
                             self.showStation = false
                         }

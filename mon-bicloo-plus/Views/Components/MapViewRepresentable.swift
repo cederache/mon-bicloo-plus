@@ -16,6 +16,8 @@ struct MapViewRepresentable: UIViewRepresentable {
     @Binding var loadingMapView: Bool
     var showCallout: Bool = false
     var displayMode: MapView.DisplayMode = .Bike
+    
+    var showStation: ((StationInformation) -> Void)? = nil
 
     var locationManager = CLLocationManager()
     func setupManager() {
@@ -76,12 +78,24 @@ struct MapViewRepresentable: UIViewRepresentable {
             self.displayMode = displayMode
         }
         
+        func detailCalloutView(stationAnnotation: StationAnnotation) -> some View {
+            HStack {
+                StationStatusView(stationInformation: stationAnnotation.stationInformation, withUnavailableDocks: true, withSpacers: true)
+                
+                Button(action: {
+                    self.mapView.showStation?(stationAnnotation.stationInformation)
+                }) {
+                    Image(systemName: "info.circle")
+                }
+            }
+        }
+        
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
             if let stationAnnotation = annotation as? StationAnnotation {
                 let annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: stationAnnotation.stationInformation.status == nil ? "bolt.circle.fill" : "location.circle.fill")
                 annotationView.canShowCallout = showCallout
                 annotationView.markerTintColor = stationAnnotation.stationInformation.status == nil ? UIColor.yellow : (self.displayMode == .Bike ? stationAnnotation.stationInformation.status!.nbBikesAvailableUIColor : stationAnnotation.stationInformation.status!.nbDocksAvailableUIColor)
-                annotationView.detailCalloutAccessoryView = MapCalloutView(rootView: StationStatusView(stationInformation: stationAnnotation.stationInformation, withUnavailableDocks: true, withSpacers: true).eraseToAnyView())
+                annotationView.detailCalloutAccessoryView = MapCalloutView(rootView: detailCalloutView(stationAnnotation: stationAnnotation).eraseToAnyView())
                 return annotationView
             }
 
