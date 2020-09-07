@@ -6,15 +6,18 @@
 //  Copyright © 2020 Cédric Derache. All rights reserved.
 //
 
+import MapKit
 import SwiftUI
 
 struct StationView: View {
     @EnvironmentObject var stationsStore: StationsStore
     @EnvironmentObject var stationsGroupStore: StationsGroupsStore
-    
+
     @Binding var stationInformation: StationInformation
     @State var loadingMapView: Bool = true
     @State var stationsGroupViewPresented: Bool = false
+
+    @State var showActionSheet: Bool = false
 
     var body: some View {
         VStack {
@@ -34,7 +37,7 @@ struct StationView: View {
 
             ZStack {
                 MapView(checkpoints: [self.stationInformation.annotation], loadingMapView: $loadingMapView)
-                
+
                 if loadingMapView {
                     ActivityIndicator(isAnimating: .constant(true))
                 }
@@ -50,6 +53,31 @@ struct StationView: View {
                     self.stationsGroupViewPresented = false
                 })
                     .environmentObject(self.stationsGroupStore)
+            }
+
+            Button(action: {
+                self.showActionSheet = true
+            }) {
+                Text("Aller à la station")
+            }
+            .actionSheet(isPresented: $showActionSheet) {
+                var buttons: [Alert.Button] = [
+                    .cancel {},
+                    .default(Text("Apple Plans")) {
+                        let coordinate = CLLocationCoordinate2DMake(self.stationInformation.latitude, self.stationInformation.longitude)
+                        let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coordinate, addressDictionary: nil))
+                        mapItem.name = self.stationInformation.name
+                        mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeWalking])
+                    }]
+
+                if let url = URL(string:
+                    "comgooglemaps://?saddr=&daddr=\(self.stationInformation.latitude),\(self.stationInformation.longitude)&directionsmode=walking"),  UIApplication.shared.canOpenURL(url) {
+                    buttons.append(.default(Text("Google Maps")) {
+                        UIApplication.shared.open(url)
+                    })
+                }
+
+                return ActionSheet(title: Text("Aller à la station"), buttons: buttons)
             }
         }
         .padding(10)

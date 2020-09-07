@@ -78,28 +78,31 @@ struct MapViewRepresentable: UIViewRepresentable {
             self.displayMode = displayMode
         }
         
-        func detailCalloutView(stationAnnotation: StationAnnotation) -> some View {
-            HStack {
-                StationStatusView(stationInformation: stationAnnotation.stationInformation, withUnavailableDocks: true, withSpacers: true)
-                
-                Button(action: {
-                    self.mapView.showStation?(stationAnnotation.stationInformation)
-                }) {
-                    Image(systemName: "info.circle")
-                }
-            }
-        }
-        
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
             if let stationAnnotation = annotation as? StationAnnotation {
                 let annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: stationAnnotation.stationInformation.status == nil ? "bolt.circle.fill" : "location.circle.fill")
+                annotationView.tag = self.mapView.checkpoints.firstIndex(where: { (sa: StationAnnotation) -> Bool in
+                    sa.stationInformation.id == stationAnnotation.stationInformation.id
+                }) ?? -1
+                if annotationView.tag == -1 {
+                    logger.error("Can't retrieve stationAnnotation \(stationAnnotation) from checkpoints \(self.mapView.checkpoints)")
+                }
                 annotationView.canShowCallout = showCallout
                 annotationView.markerTintColor = stationAnnotation.stationInformation.status == nil ? UIColor.yellow : (self.displayMode == .Bike ? stationAnnotation.stationInformation.status!.nbBikesAvailableUIColor : stationAnnotation.stationInformation.status!.nbDocksAvailableUIColor)
-                annotationView.detailCalloutAccessoryView = MapCalloutView(rootView: detailCalloutView(stationAnnotation: stationAnnotation).eraseToAnyView())
+                annotationView.detailCalloutAccessoryView = MapCalloutView(rootView: StationStatusView(stationInformation: stationAnnotation.stationInformation, withUnavailableDocks: true, withSpacers: true).eraseToAnyView())
+                annotationView.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
                 return annotationView
             }
 
             return nil
+        }
+        
+        func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+            if let stationAnnotation = view.tag == -1 ? nil : self.mapView.checkpoints[view.tag] {
+                self.mapView.showStation?(stationAnnotation.stationInformation)
+            } else {
+                logger.debug("Can't retrieve stationAnnotation for annotationView \(view)")
+            }
         }
 
         func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
