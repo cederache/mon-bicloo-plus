@@ -69,7 +69,7 @@ struct ListStationsView: View {
                     ForEach(self.stationsStore.stationInformations
                         .filter({ (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) })
                         .sorted(by: {
-                            $0.displayName < $1.displayName
+                            $0.displayNameCapitalized < $1.displayNameCapitalized
                         })
                     ) { (stationInformation: StationInformation) in
                         StationRow(stationInformation: self.$stationsStore.stationInformations[self.stationsStore.stationInformations.firstIndex(of: stationInformation) ?? 0])

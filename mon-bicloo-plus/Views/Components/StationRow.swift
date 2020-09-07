@@ -55,7 +55,7 @@ struct StationRow: View {
     var body: some View {
         NavigationLink(destination: StationView(stationInformation: $stationInformation)) {
             HStack {
-                Text(stationInformation.displayName)
+                Text(stationInformation.displayNameCapitalized)
 
                 Spacer()
                 
