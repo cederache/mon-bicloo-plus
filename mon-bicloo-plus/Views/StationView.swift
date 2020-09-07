@@ -53,6 +53,7 @@ struct StationView: View {
                     self.stationsGroupViewPresented = false
                 })
                     .environmentObject(self.stationsGroupStore)
+                    .accentColor(Constants.accentColor)
             }
 
             Button(action: {

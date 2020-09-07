@@ -18,9 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
         // Create the SwiftUI view that provides the window contents.
-        let contentView = FavoritesStationsView()
-            .environmentObject(StationsStore.Instance)
-            .environmentObject(StationsGroupsStore.Instance)
+        let userInformations = DatabaseManager.Instance.realm.objects(UserInformations.self).first ?? UserInformations()
+        let contentView = HomeView(userInformations: userInformations).accentColor(Constants.accentColor)
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

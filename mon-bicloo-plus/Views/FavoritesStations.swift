@@ -130,6 +130,7 @@ struct FavoritesStationsView: View {
                 .sheet(isPresented: $stationsGroupViewPresented) {
                     StationsGroupsView(canEdit: true)
                         .environmentObject(self.stationsGroupsStore)
+                        .accentColor(Constants.accentColor)
                 }
 
                 NavigationLink(destination: ListStationsView().environmentObject(self.stationsStore)) {

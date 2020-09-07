@@ -25,6 +25,7 @@ struct MapView: View {
     var body: some View {
         ZStack {
             MapViewRepresentable(checkpoints: checkpoints, loadingMapView: $loadingMapView, showCallout: showCallout, displayMode: displayModeDocks ? .Docks : .Bike, showStation: showStation)
+                .accentColor(.blue)
 
             if showDisplayModeSwitch {
                 VStack {
