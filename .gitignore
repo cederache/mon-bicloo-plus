@@ -97,7 +97,9 @@ iOSInjectionProject/
 ### SwiftPackageManager ###
 Packages
 xcuserdata
-*.xcodeproj
+
+.DS_Store
 
 
 # End of https://www.toptal.com/developers/gitignore/api/cocoapods,swift,swiftpackagemanager
+.DS_Store

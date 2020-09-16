@@ -1,0 +1,631 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2107E32624B66F6E00CAC00F /* StationsGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2107E32524B66F6E00CAC00F /* StationsGroup.swift */; };
+		2107E32924B672E300CAC00F /* StationsGroupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2107E32824B672E300CAC00F /* StationsGroupsView.swift */; };
+		2107E32B24B6731B00CAC00F /* StationsGroupsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2107E32A24B6731B00CAC00F /* StationsGroupsStore.swift */; };
+		2107E32D24B6806D00CAC00F /* SwiftUI+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2107E32C24B6806D00CAC00F /* SwiftUI+Utils.swift */; };
+		210B95C224AFBAA4009FCD3F /* StationStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2126759D24AFB6CF0058FDF1 /* StationStatus.swift */; };
+		2126759A24AFB5140058FDF1 /* StationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2126759924AFB5140058FDF1 /* StationView.swift */; };
+		212ACC3D24AB1CD50008C6AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 212ACC3524AB1CD50008C6AC /* Assets.xcassets */; };
+		212ACC3E24AB1CD50008C6AC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 212ACC3624AB1CD50008C6AC /* LaunchScreen.storyboard */; };
+		212ACC3F24AB1CD50008C6AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212ACC3824AB1CD50008C6AC /* AppDelegate.swift */; };
+		212ACC4024AB1CD50008C6AC /* ServerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212ACC3924AB1CD50008C6AC /* ServerManager.swift */; };
+		212ACC4124AB1CD50008C6AC /* ListStationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212ACC3A24AB1CD50008C6AC /* ListStationsView.swift */; };
+		212ACC4324AB1CD50008C6AC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212ACC3C24AB1CD50008C6AC /* SceneDelegate.swift */; };
+		212ACC4824AB208F0008C6AC /* LoggingProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212ACC4524AB208F0008C6AC /* LoggingProxy.swift */; };
+		212ACC4924AB208F0008C6AC /* EmojiModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212ACC4624AB208F0008C6AC /* EmojiModifier.swift */; };
+		212ACC4A24AB208F0008C6AC /* LoggingConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212ACC4724AB208F0008C6AC /* LoggingConfiguration.swift */; };
+		212ACC4F24AB20D10008C6AC /* StationInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212ACC4E24AB20D10008C6AC /* StationInformation.swift */; };
+		21332FA524B1C47900CE26CF /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21332FA424B1C47900CE26CF /* DatabaseManager.swift */; };
+		21332FA724B1C55E00CE26CF /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21332FA624B1C55E00CE26CF /* Entity.swift */; };
+		21332FA924B1C8D900CE26CF /* StationsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21332FA824B1C8D900CE26CF /* StationsStore.swift */; };
+		21332FAB24B1C95B00CE26CF /* Realm+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21332FAA24B1C95B00CE26CF /* Realm+Utils.swift */; };
+		2144292A24AFE48C0083D5D7 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2144292924AFE48C0083D5D7 /* SearchBar.swift */; };
+		2144292E24AFF00B0083D5D7 /* FavoritesStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2144292D24AFF00B0083D5D7 /* FavoritesStations.swift */; };
+		2144293024AFF0500083D5D7 /* StationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2144292F24AFF0500083D5D7 /* StationRow.swift */; };
+		214F0FB124B3D1BF00896622 /* MapViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214F0FB024B3D1BE00896622 /* MapViewRepresentable.swift */; };
+		214F0FB324B3DA1E00896622 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214F0FB224B3DA1E00896622 /* ActivityIndicator.swift */; };
+		218857DA2502721A0064AC34 /* ColoredToggleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218857D92502721A0064AC34 /* ColoredToggleStyle.swift */; };
+		218857DC25027E0E0064AC34 /* Color+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218857DB25027E0E0064AC34 /* Color+Utils.swift */; };
+		218857DE25027EC80064AC34 /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218857DD25027EC80064AC34 /* RoundedCorners.swift */; };
+		21D946A024FFA1BB00E58C1E /* MapCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D9469F24FFA1BB00E58C1E /* MapCalloutView.swift */; };
+		21D946A224FFE5DB00E58C1E /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D946A124FFE5DB00E58C1E /* MapView.swift */; };
+		21E26DFD25065AB000057E9F /* IntroductionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E26DFC25065AB000057E9F /* IntroductionDetailView.swift */; };
+		21E26E0325065C6D00057E9F /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E26E0225065C6D00057E9F /* IntroductionView.swift */; };
+		21E26E0525065F7700057E9F /* UserInformations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E26E0425065F7700057E9F /* UserInformations.swift */; };
+		21E26E072506615900057E9F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E26E062506615900057E9F /* HomeView.swift */; };
+		21E26E0925066A8900057E9F /* String+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E26E0825066A8900057E9F /* String+Utils.swift */; };
+		21E26E0B25066C7000057E9F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E26E0A25066C7000057E9F /* Constants.swift */; };
+		21E83C7424BCB38D007CC89F /* Pods_mon_bicloo_plus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F56D3E927F8071D5B7431540 /* Pods_mon_bicloo_plus.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		21EB9CDA24BC9E1F000496D3 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		2107E32524B66F6E00CAC00F /* StationsGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationsGroup.swift; sourceTree = "<group>"; };
+		2107E32824B672E300CAC00F /* StationsGroupsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationsGroupsView.swift; sourceTree = "<group>"; };
+		2107E32A24B6731B00CAC00F /* StationsGroupsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationsGroupsStore.swift; sourceTree = "<group>"; };
+		2107E32C24B6806D00CAC00F /* SwiftUI+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI+Utils.swift"; sourceTree = "<group>"; };
+		2126759924AFB5140058FDF1 /* StationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationView.swift; sourceTree = "<group>"; };
+		2126759D24AFB6CF0058FDF1 /* StationStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationStatus.swift; sourceTree = "<group>"; };
+		212ACC3524AB1CD50008C6AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		212ACC3724AB1CD50008C6AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		212ACC3824AB1CD50008C6AC /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		212ACC3924AB1CD50008C6AC /* ServerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerManager.swift; sourceTree = "<group>"; };
+		212ACC3A24AB1CD50008C6AC /* ListStationsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListStationsView.swift; sourceTree = "<group>"; };
+		212ACC3B24AB1CD50008C6AC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		212ACC3C24AB1CD50008C6AC /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		212ACC4524AB208F0008C6AC /* LoggingProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingProxy.swift; sourceTree = "<group>"; };
+		212ACC4624AB208F0008C6AC /* EmojiModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiModifier.swift; sourceTree = "<group>"; };
+		212ACC4724AB208F0008C6AC /* LoggingConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingConfiguration.swift; sourceTree = "<group>"; };
+		212ACC4E24AB20D10008C6AC /* StationInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInformation.swift; sourceTree = "<group>"; };
+		21332FA424B1C47900CE26CF /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		21332FA624B1C55E00CE26CF /* Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
+		21332FA824B1C8D900CE26CF /* StationsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationsStore.swift; sourceTree = "<group>"; };
+		21332FAA24B1C95B00CE26CF /* Realm+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Realm+Utils.swift"; sourceTree = "<group>"; };
+		2144292924AFE48C0083D5D7 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		2144292D24AFF00B0083D5D7 /* FavoritesStations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesStations.swift; sourceTree = "<group>"; };
+		2144292F24AFF0500083D5D7 /* StationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationRow.swift; sourceTree = "<group>"; };
+		214F0FB024B3D1BE00896622 /* MapViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewRepresentable.swift; sourceTree = "<group>"; };
+		214F0FB224B3DA1E00896622 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		216B0EC824AB1B55007AAC30 /* Mon Bicloo Plus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mon Bicloo Plus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		218857D92502721A0064AC34 /* ColoredToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoredToggleStyle.swift; sourceTree = "<group>"; };
+		218857DB25027E0E0064AC34 /* Color+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Utils.swift"; sourceTree = "<group>"; };
+		218857DD25027EC80064AC34 /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
+		21D9469F24FFA1BB00E58C1E /* MapCalloutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCalloutView.swift; sourceTree = "<group>"; };
+		21D946A124FFE5DB00E58C1E /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		21E26DFC25065AB000057E9F /* IntroductionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionDetailView.swift; sourceTree = "<group>"; };
+		21E26E0225065C6D00057E9F /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
+		21E26E0425065F7700057E9F /* UserInformations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInformations.swift; sourceTree = "<group>"; };
+		21E26E062506615900057E9F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		21E26E0825066A8900057E9F /* String+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Utils.swift"; sourceTree = "<group>"; };
+		21E26E0A25066C7000057E9F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		21EB9CCE24BC9E1E000496D3 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		9C4424BFC586C0F7407D56C0 /* Pods-mon-bicloo-plus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mon-bicloo-plus.debug.xcconfig"; path = "Target Support Files/Pods-mon-bicloo-plus/Pods-mon-bicloo-plus.debug.xcconfig"; sourceTree = "<group>"; };
+		B7A195A9ED9FBB04CC0AE523 /* Pods-mon-bicloo-plus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mon-bicloo-plus.release.xcconfig"; path = "Target Support Files/Pods-mon-bicloo-plus/Pods-mon-bicloo-plus.release.xcconfig"; sourceTree = "<group>"; };
+		F56D3E927F8071D5B7431540 /* Pods_mon_bicloo_plus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mon_bicloo_plus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		216B0EC524AB1B55007AAC30 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				21E83C7424BCB38D007CC89F /* Pods_mon_bicloo_plus.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2107E32724B66F9D00CAC00F /* StationsGroup */ = {
+			isa = PBXGroup;
+			children = (
+				2107E32A24B6731B00CAC00F /* StationsGroupsStore.swift */,
+				2107E32524B66F6E00CAC00F /* StationsGroup.swift */,
+			);
+			path = StationsGroup;
+			sourceTree = "<group>";
+		};
+		2126759B24AFB62A0058FDF1 /* Information */ = {
+			isa = PBXGroup;
+			children = (
+				212ACC4E24AB20D10008C6AC /* StationInformation.swift */,
+			);
+			path = Information;
+			sourceTree = "<group>";
+		};
+		2126759C24AFB6330058FDF1 /* Status */ = {
+			isa = PBXGroup;
+			children = (
+				2126759D24AFB6CF0058FDF1 /* StationStatus.swift */,
+			);
+			path = Status;
+			sourceTree = "<group>";
+		};
+		2126759E24AFBA1E0058FDF1 /* Station */ = {
+			isa = PBXGroup;
+			children = (
+				21332FA824B1C8D900CE26CF /* StationsStore.swift */,
+				2126759B24AFB62A0058FDF1 /* Information */,
+				2126759C24AFB6330058FDF1 /* Status */,
+			);
+			path = Station;
+			sourceTree = "<group>";
+		};
+		212ACC3424AB1CD50008C6AC /* mon-bicloo-plus */ = {
+			isa = PBXGroup;
+			children = (
+				212ACC3824AB1CD50008C6AC /* AppDelegate.swift */,
+				212ACC3524AB1CD50008C6AC /* Assets.xcassets */,
+				212ACC4D24AB20BF0008C6AC /* Entities */,
+				212ACC3B24AB1CD50008C6AC /* Info.plist */,
+				212ACC3624AB1CD50008C6AC /* LaunchScreen.storyboard */,
+				21332FA324B1C46900CE26CF /* Managers */,
+				212ACC3C24AB1CD50008C6AC /* SceneDelegate.swift */,
+				212ACC4B24AB209A0008C6AC /* Utilities */,
+				212ACC5024AB215A0008C6AC /* Views */,
+			);
+			path = "mon-bicloo-plus";
+			sourceTree = "<group>";
+		};
+		212ACC4424AB208F0008C6AC /* Willow Logger */ = {
+			isa = PBXGroup;
+			children = (
+				212ACC4524AB208F0008C6AC /* LoggingProxy.swift */,
+				212ACC4624AB208F0008C6AC /* EmojiModifier.swift */,
+				212ACC4724AB208F0008C6AC /* LoggingConfiguration.swift */,
+			);
+			path = "Willow Logger";
+			sourceTree = "<group>";
+		};
+		212ACC4B24AB209A0008C6AC /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				21D9469F24FFA1BB00E58C1E /* MapCalloutView.swift */,
+				218857DB25027E0E0064AC34 /* Color+Utils.swift */,
+				21332FAA24B1C95B00CE26CF /* Realm+Utils.swift */,
+				218857DD25027EC80064AC34 /* RoundedCorners.swift */,
+				2107E32C24B6806D00CAC00F /* SwiftUI+Utils.swift */,
+				212ACC4424AB208F0008C6AC /* Willow Logger */,
+				21E26E0825066A8900057E9F /* String+Utils.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		212ACC4D24AB20BF0008C6AC /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				21332FA624B1C55E00CE26CF /* Entity.swift */,
+				2126759E24AFBA1E0058FDF1 /* Station */,
+				2107E32724B66F9D00CAC00F /* StationsGroup */,
+				21E26E0425065F7700057E9F /* UserInformations.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		212ACC5024AB215A0008C6AC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2144292824AFE4750083D5D7 /* Components */,
+				2144292D24AFF00B0083D5D7 /* FavoritesStations.swift */,
+				21E26E062506615900057E9F /* HomeView.swift */,
+				21E26E0225065C6D00057E9F /* IntroductionView.swift */,
+				212ACC3A24AB1CD50008C6AC /* ListStationsView.swift */,
+				2107E32824B672E300CAC00F /* StationsGroupsView.swift */,
+				2126759924AFB5140058FDF1 /* StationView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		21332FA324B1C46900CE26CF /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				21E26E0A25066C7000057E9F /* Constants.swift */,
+				21332FA424B1C47900CE26CF /* DatabaseManager.swift */,
+				212ACC3924AB1CD50008C6AC /* ServerManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		2144292824AFE4750083D5D7 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				214F0FB224B3DA1E00896622 /* ActivityIndicator.swift */,
+				218857D92502721A0064AC34 /* ColoredToggleStyle.swift */,
+				21E26DFC25065AB000057E9F /* IntroductionDetailView.swift */,
+				21D946A124FFE5DB00E58C1E /* MapView.swift */,
+				214F0FB024B3D1BE00896622 /* MapViewRepresentable.swift */,
+				2144292924AFE48C0083D5D7 /* SearchBar.swift */,
+				2144292F24AFF0500083D5D7 /* StationRow.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		216B0EBF24AB1B55007AAC30 = {
+			isa = PBXGroup;
+			children = (
+				212ACC3424AB1CD50008C6AC /* mon-bicloo-plus */,
+				216B0EC924AB1B55007AAC30 /* Products */,
+				48066A68DF922BDEE1814651 /* Pods */,
+				6E1AB7ACDD01B8C65020C611 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		216B0EC924AB1B55007AAC30 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				216B0EC824AB1B55007AAC30 /* Mon Bicloo Plus.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		48066A68DF922BDEE1814651 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9C4424BFC586C0F7407D56C0 /* Pods-mon-bicloo-plus.debug.xcconfig */,
+				B7A195A9ED9FBB04CC0AE523 /* Pods-mon-bicloo-plus.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		6E1AB7ACDD01B8C65020C611 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F56D3E927F8071D5B7431540 /* Pods_mon_bicloo_plus.framework */,
+				21EB9CCE24BC9E1E000496D3 /* NotificationCenter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		216B0EC724AB1B55007AAC30 /* mon-bicloo-plus */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 216B0EDC24AB1B57007AAC30 /* Build configuration list for PBXNativeTarget "mon-bicloo-plus" */;
+			buildPhases = (
+				4C0FE8AD4CFE939D27B8A6B1 /* [CP] Check Pods Manifest.lock */,
+				216B0EC424AB1B55007AAC30 /* Sources */,
+				216B0EC524AB1B55007AAC30 /* Frameworks */,
+				216B0EC624AB1B55007AAC30 /* Resources */,
+				206445B95E28D2FA752AEC75 /* [CP] Embed Pods Frameworks */,
+				21EB9CDA24BC9E1F000496D3 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "mon-bicloo-plus";
+			productName = "mon-bicloo-plus";
+			productReference = 216B0EC824AB1B55007AAC30 /* Mon Bicloo Plus.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		216B0EC024AB1B55007AAC30 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1150;
+				LastUpgradeCheck = 1150;
+				ORGANIZATIONNAME = "Cédric Derache";
+				TargetAttributes = {
+					216B0EC724AB1B55007AAC30 = {
+						CreatedOnToolsVersion = 11.5;
+					};
+				};
+			};
+			buildConfigurationList = 216B0EC324AB1B55007AAC30 /* Build configuration list for PBXProject "mon-bicloo-plus" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = fr;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				fr,
+				Base,
+			);
+			mainGroup = 216B0EBF24AB1B55007AAC30;
+			productRefGroup = 216B0EC924AB1B55007AAC30 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				216B0EC724AB1B55007AAC30 /* mon-bicloo-plus */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		216B0EC624AB1B55007AAC30 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				212ACC3E24AB1CD50008C6AC /* LaunchScreen.storyboard in Resources */,
+				212ACC3D24AB1CD50008C6AC /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		206445B95E28D2FA752AEC75 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mon-bicloo-plus/Pods-mon-bicloo-plus-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mon-bicloo-plus/Pods-mon-bicloo-plus-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mon-bicloo-plus/Pods-mon-bicloo-plus-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4C0FE8AD4CFE939D27B8A6B1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-mon-bicloo-plus-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		216B0EC424AB1B55007AAC30 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				212ACC4124AB1CD50008C6AC /* ListStationsView.swift in Sources */,
+				21E26E0B25066C7000057E9F /* Constants.swift in Sources */,
+				2107E32924B672E300CAC00F /* StationsGroupsView.swift in Sources */,
+				2107E32D24B6806D00CAC00F /* SwiftUI+Utils.swift in Sources */,
+				2126759A24AFB5140058FDF1 /* StationView.swift in Sources */,
+				218857DA2502721A0064AC34 /* ColoredToggleStyle.swift in Sources */,
+				21E26DFD25065AB000057E9F /* IntroductionDetailView.swift in Sources */,
+				214F0FB324B3DA1E00896622 /* ActivityIndicator.swift in Sources */,
+				2144293024AFF0500083D5D7 /* StationRow.swift in Sources */,
+				212ACC3F24AB1CD50008C6AC /* AppDelegate.swift in Sources */,
+				212ACC4F24AB20D10008C6AC /* StationInformation.swift in Sources */,
+				212ACC4824AB208F0008C6AC /* LoggingProxy.swift in Sources */,
+				21E26E0925066A8900057E9F /* String+Utils.swift in Sources */,
+				212ACC4A24AB208F0008C6AC /* LoggingConfiguration.swift in Sources */,
+				21D946A024FFA1BB00E58C1E /* MapCalloutView.swift in Sources */,
+				21E26E072506615900057E9F /* HomeView.swift in Sources */,
+				21E26E0325065C6D00057E9F /* IntroductionView.swift in Sources */,
+				214F0FB124B3D1BF00896622 /* MapViewRepresentable.swift in Sources */,
+				2144292E24AFF00B0083D5D7 /* FavoritesStations.swift in Sources */,
+				21332FA524B1C47900CE26CF /* DatabaseManager.swift in Sources */,
+				212ACC4024AB1CD50008C6AC /* ServerManager.swift in Sources */,
+				212ACC4324AB1CD50008C6AC /* SceneDelegate.swift in Sources */,
+				2107E32B24B6731B00CAC00F /* StationsGroupsStore.swift in Sources */,
+				21D946A224FFE5DB00E58C1E /* MapView.swift in Sources */,
+				21E26E0525065F7700057E9F /* UserInformations.swift in Sources */,
+				21332FA724B1C55E00CE26CF /* Entity.swift in Sources */,
+				218857DE25027EC80064AC34 /* RoundedCorners.swift in Sources */,
+				21332FAB24B1C95B00CE26CF /* Realm+Utils.swift in Sources */,
+				21332FA924B1C8D900CE26CF /* StationsStore.swift in Sources */,
+				2107E32624B66F6E00CAC00F /* StationsGroup.swift in Sources */,
+				210B95C224AFBAA4009FCD3F /* StationStatus.swift in Sources */,
+				2144292A24AFE48C0083D5D7 /* SearchBar.swift in Sources */,
+				212ACC4924AB208F0008C6AC /* EmojiModifier.swift in Sources */,
+				218857DC25027E0E0064AC34 /* Color+Utils.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		212ACC3624AB1CD50008C6AC /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				212ACC3724AB1CD50008C6AC /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		216B0EDA24AB1B57007AAC30 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		216B0EDB24AB1B57007AAC30 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		216B0EDD24AB1B57007AAC30 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9C4424BFC586C0F7407D56C0 /* Pods-mon-bicloo-plus.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = QU35VLK5F8;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "mon-bicloo-plus/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.7;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cederache.mon-bicloo-plus.ios";
+				PRODUCT_NAME = "Mon Bicloo Plus";
+				PROVISIONING_PROFILE_SPECIFIER = "All apps";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		216B0EDE24AB1B57007AAC30 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B7A195A9ED9FBB04CC0AE523 /* Pods-mon-bicloo-plus.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = QU35VLK5F8;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "mon-bicloo-plus/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.7;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cederache.mon-bicloo-plus.ios";
+				PRODUCT_NAME = "Mon Bicloo Plus";
+				PROVISIONING_PROFILE_SPECIFIER = "All apps";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		216B0EC324AB1B55007AAC30 /* Build configuration list for PBXProject "mon-bicloo-plus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				216B0EDA24AB1B57007AAC30 /* Debug */,
+				216B0EDB24AB1B57007AAC30 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		216B0EDC24AB1B57007AAC30 /* Build configuration list for PBXNativeTarget "mon-bicloo-plus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				216B0EDD24AB1B57007AAC30 /* Debug */,
+				216B0EDE24AB1B57007AAC30 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 216B0EC024AB1B55007AAC30 /* Project object */;
+}
