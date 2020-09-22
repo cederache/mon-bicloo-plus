@@ -10,6 +10,9 @@ import SwiftUI
 
 struct HomeView: View {
     @State var userInformations: UserInformations
+    
+    var stationsStore = StationsStore.Instance
+    var stationsGroupStore = StationsGroupsStore.Instance
 
     var body: some View {
         Group {
@@ -19,12 +22,12 @@ struct HomeView: View {
                     self.userInformations.save()
                     
                     // Update state var to update display
-                    self.userInformations = DatabaseManager.Instance.realm.objects(UserInformations.self).first ?? self.userInformations
+                    self.userInformations = UserInformations.getFirst() as? UserInformations ?? self.userInformations
                 })
             } else {
-                FavoritesStationsView()
-                    .environmentObject(StationsStore.Instance)
-                    .environmentObject(StationsGroupsStore.Instance)
+                StationsTabView()
+                    .environmentObject(stationsStore)
+                    .environmentObject(stationsGroupStore)
             }
         }
     }

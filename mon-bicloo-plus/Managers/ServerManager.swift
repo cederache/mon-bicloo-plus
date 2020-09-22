@@ -19,6 +19,7 @@ class ServerManager {
     private(set) static var logServerRequest = false
 
     let monitor = NWPathMonitor()
+    let queue = DispatchQueue(label: "com.cederache.mon-bicloo-plus.api", qos: .background, attributes: .concurrent)
 
     private init() {
         monitor.pathUpdateHandler = { path in
@@ -39,50 +40,23 @@ class ServerManager {
 
     // MARK: - Stations
 
-    private let staticStationsURL = "https://transport.data.gouv.fr/gbfs/nantes/station_information.json"
-    private let staticStationsStatusURL = "https://transport.data.gouv.fr/gbfs/nantes/station_status.json"
+    private let staticStationsStatusURL = "https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=244400404_stations-velos-libre-service-nantes-metropole-disponibilites&q=&rows=999"
 
-    func FetchStations(onDone: @escaping ([StationInformation]) -> Void, onError: @escaping (Error?) -> Void) {
-        GET(staticStationsURL).response { response in
+    func FetchStationsStatus(onDone: @escaping ([Station]) -> Void, onError: @escaping (Error?) -> Void) {
+        GET(staticStationsStatusURL).response(queue: queue) { response in
             self.GlobalHandler(response: response, onError: onError, onNoInternet: {
                 onDone([])
             }) { response in
                 // Init stations
                 let decoder = JSONDecoder()
                 do {
-                    var stationsInformations = try decoder.decode(StationsInformations.self, from: response.data ?? Data()).data.stationsInformations
-
-                    self.FetchStationsStatus(onDone: { (stationsStatus) in
-                        stationsInformations = stationsInformations.map({ (station: StationInformation) in
-                            let stat = station
-                            stat.status = stationsStatus.first(where: { (status: StationStatus) in
-                                status.id == station.id
-                            })
-                            stat.save()
-                            return stat
-                        })
-
-                        onDone(stationsInformations)
-                    }, onError: onError)
-                } catch {
-                    logger.error("Error while create StationsInformations \(error)")
-                    logger.warn(String(data: response.data ?? Data(), encoding: String.Encoding.utf8))
-                    onError(error)
-                }
-            }
-        }
-    }
-
-    func FetchStationsStatus(onDone: @escaping ([StationStatus]) -> Void, onError: @escaping (Error?) -> Void) {
-        GET(staticStationsStatusURL).response { response in
-            self.GlobalHandler(response: response, onError: onError, onNoInternet: {
-                onDone([])
-            }) { response in
-                // Init stations
-                let decoder = JSONDecoder()
-                do {
-                    let stationsStatus = try decoder.decode(StationsStatus.self, from: response.data ?? Data())
-                    onDone(stationsStatus.data.stationsStatus)
+                    let stationsRecords = try decoder.decode(StationsRecords.self, from: response.data ?? Data())
+                    
+                    for station in stationsRecords.records.map({$0.fields}) {
+                        station.save()
+                    }
+                    
+                    onDone(stationsRecords.records.map({$0.fields}))
                 } catch {
                     logger.error("Error while create StationsStatus \(error)")
                     logger.warn(String(data: response.data ?? Data(), encoding: String.Encoding.utf8))
@@ -95,40 +69,38 @@ class ServerManager {
     // MARK: - Global Methods
 
     func GlobalHandler(response: AFDataResponse<Data?>, autoLogged: Bool = false, onError: @escaping (Error?) -> Void, onNoInternet: @escaping () -> Void, onSuccess: @escaping (AFDataResponse<Data?>) -> Void) {
-        if response.response == nil || response.error != nil || ServerManager.forceNoInternet {
-            logger.error("Request error \(response.error?.errorDescription ?? "nil")")
-            // No internet access ??
-            ServerManager.hasInternet = false
-            logger.info("No Internet")
-            onNoInternet()
-            return
-        }
-        ServerManager.hasInternet = true
+        DispatchQueue.main.async {
+            if response.response == nil || response.error != nil || ServerManager.forceNoInternet {
+                logger.error("Request error \(response.error?.errorDescription ?? "nil")")
+                // No internet access ??
+                ServerManager.hasInternet = false
+                logger.info("No Internet")
+                onNoInternet()
+                return
+            }
+            ServerManager.hasInternet = true
 
-        switch response.response!.statusCode {
-        case 200 ... 299:
-            onSuccess(response)
-            break
-        case 400 ... 499:
-            logger.error(response.debugDescription)
-            onError(response.error)
-            break
-        default:
-            logger.error(response.debugDescription)
-            onError(response.error)
-            break
+            switch response.response!.statusCode {
+            case 200 ... 299:
+                onSuccess(response)
+                break
+            case 400 ... 499:
+                logger.error(response.debugDescription)
+                onError(response.error)
+                break
+            default:
+                logger.error(response.debugDescription)
+                onError(response.error)
+                break
+            }
         }
     }
 
-    func GET(_ route: String, single: Bool = false) -> DataRequest {
+    func GET(_ route: String) -> DataRequest {
         if ServerManager.logServerRequest {
             logger.info("GET on \(route)")
         }
-        var headers: HTTPHeaders = [.authorization(bearerToken: UserDefaults.standard.string(forKey: "token") ?? "")]
-        if single {
-            headers.add(name: "Accept", value: "application/json")
-        }
-        return AF.request(route.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!, method: .get, headers: headers)
+        return AF.request(route, method: .get)
     }
 
     func POST(withoutApiURL: Bool = false, _ route: String, _ parameters: Parameters) -> DataRequest {

@@ -18,9 +18,11 @@ struct ListStationsView: View {
 
     @State var displayMode: DisplayMode = .List
 
-    @State var selectedStationInformation: StationInformation = StationInformation()
+    @State var selectedStation: Station = Station()
     @State var showStation: Bool = false
-
+    
+    @State var fetchError: Bool = false
+    
     enum DisplayMode {
         case List
         case Map
@@ -30,93 +32,111 @@ struct ListStationsView: View {
         stationsStore.fetch()
         showingRefreshView = true
         ServerManager.Instance.FetchStationsStatus(onDone: { status in
+            self.fetchError = false
             self.stationsStore.fetch()
-
-            for station in self.stationsStore.stationInformations {
-                station.status = status.first(where: { $0.id == station.id })
-            }
 
             self.showingRefreshView = false
         }) { _ in
+            self.fetchError = true
             logger.error("Can't fetch status")
         }
     }
+    
+    var filteredStations: [Station] {
+        stationsStore.stationStatus
+            .filter({ (searchQuery == "" || $0.displayNameCapitalized.lowercased().contains(searchQuery.lowercased())) })
+            .sorted(by: {
+                $0.displayNameCapitalized.localizedCaseInsensitiveCompare($1.displayNameCapitalized) == ComparisonResult.orderedAscending
+            })
+    }
 
     var body: some View {
-        VStack {
-            SearchBar(searchQuery: $searchQuery)
-
-            if displayMode == .List {
-                List {
-                    if self.searchQuery != "" && self.stationsStore.stationInformations
-                        .filter({ searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased()) }).count == 0 {
-                        HStack {
-                            Spacer()
-                            Text("Aucune station ne correspond à votre recherche")
-                                .italic()
-                                .disabled(true)
-                            Spacer()
-                        }
-                    } else if self.stationsStore.stationInformations.count == 0 {
-                        HStack {
-                            Spacer()
-                            Text("Aucune station à afficher")
-                                .italic()
-                            Spacer()
-                        }
+        NavigationView {
+            VStack {
+                if fetchError {
+                    HStack {
+                        Text("Une erreur est survenue lors de la récupération des données")
+                            .font(.caption)
+                            .italic()
+                            .multilineTextAlignment(.center)
                     }
-
-                    ForEach(self.stationsStore.stationInformations
-                        .filter({ (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) })
-                        .sorted(by: {
-                            $0.displayNameCapitalized < $1.displayNameCapitalized
-                        })
-                    ) { (stationInformation: StationInformation) in
-                        StationRow(stationInformation: self.$stationsStore.stationInformations[self.stationsStore.stationInformations.firstIndex(of: stationInformation) ?? 0])
-                    }
+                    .padding([.top, .bottom], 5)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.red)
                 }
-                .pullToRefresh(isShowing: self.$showingRefreshView, onRefresh: {
-                    self.fetchStatus()
-                })
-                .transition(.move(edge: .leading))
-            } else if displayMode == .Map {
-                ZStack {
-                    NavigationLink(destination: StationView(stationInformation: $selectedStationInformation), isActive: $showStation) {
-                        EmptyView()
-                    }
-                    .hidden()
+                
+                SearchBar(searchQuery: $searchQuery)
 
-                    MapView(checkpoints: self.stationsStore.stationInformations
-                        .filter({ (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) })
-                        .map({ $0.annotation }), loadingMapView: $loadingMapView, showCallout: true, showDisplayModeSwitch: true, showStation: { (stationInformation: StationInformation) in
-                            self.selectedStationInformation = stationInformation
-                            self.showStation = true
-                        })
-                        .onAppear {
-                            self.showStation = false
+                if displayMode == .List {
+                    List {
+                        if self.searchQuery != "" && self.filteredStations.count == 0 {
+                            HStack {
+                                Spacer()
+                                Text("Aucune station ne correspond à votre recherche")
+                                    .italic()
+                                    .disabled(true)
+                                Spacer()
+                            }
+                        } else if self.stationsStore.stationStatus.count == 0 {
+                            HStack {
+                                Spacer()
+                                Text("Aucune station à afficher")
+                                    .italic()
+                                Spacer()
+                            }
                         }
-
-                    if loadingMapView {
-                        ActivityIndicator(isAnimating: .constant(true))
+                        
+                        ForEach(self.filteredStations) { (station: Station) in
+                            StationRow(station: self.$stationsStore.stationStatus[self.stationsStore.stationStatus.firstIndex(of: station) ?? 0])
+                        }
                     }
+                    .listStyle(PlainListStyle())
+                    .pullToRefresh(isShowing: self.$showingRefreshView, onRefresh: {
+                        self.fetchStatus()
+                    })
+                    .transition(.move(edge: .leading))
+                } else if displayMode == .Map {
+                    ZStack {
+                        NavigationLink(destination: StationView(station: $selectedStation), isActive: $showStation) {
+                            EmptyView()
+                        }
+                        .hidden()
+
+                        MapView(checkpoints: self.stationsStore.stationStatus
+                            .filter({ (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) })
+                            .map({ $0.annotation }), loadingMapView: $loadingMapView, showCallout: true, showDisplayModeSwitch: true, showStation: { (station: Station) in
+                                self.selectedStation = station
+                                self.showStation = true
+                            })
+                            .onAppear {
+                                self.showStation = false
+                            }
+
+                        if loadingMapView {
+                            ActivityIndicator(isAnimating: .constant(true))
+                        }
+                    }
+                    .transition(.move(edge: .trailing))
                 }
-                .transition(.move(edge: .trailing))
             }
-        }
-        .onAppear {
-            self.fetchStatus()
-        }
-        .navigationBarTitle("Toutes les stations")
-        .navigationBarItems(trailing:
-            Button(action: {
-                withAnimation {
-                    self.displayMode = self.displayMode == .List ? .Map : .List
-                }
-            }) {
-                Image(systemName: self.displayMode == .List ? "map.fill" : "list.bullet")
+            .onAppear {
+                self.fetchStatus()
             }
-        )
-        .edgesIgnoringSafeArea([.bottom])
+            .navigationBarTitle("Toutes les stations")
+            .navigationBarItems(trailing:
+                Button(action: {
+                    withAnimation {
+                        self.displayMode = self.displayMode == .List ? .Map : .List
+                    }
+                }) {
+                    HStack {
+                        Image(systemName: self.displayMode == .List ? "map.fill" : "list.bullet")
+                        Text(self.displayMode == .List ? "Carte" : "Liste")
+                    }
+                }
+            )
+            .edgesIgnoringSafeArea([.bottom])
+        }
     }
 }
 

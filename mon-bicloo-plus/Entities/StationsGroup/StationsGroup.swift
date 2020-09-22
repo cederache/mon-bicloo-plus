@@ -16,7 +16,7 @@ class StationsGroup: Object, EntitySafe, Codable, Identifiable {
     @objc internal dynamic var _sortMode: Int = 0
     @objc internal dynamic var _stationsIds: String = ""
 
-    private var _stations: [StationInformation] = []
+    private var _stations: [Station] = []
 
     override static func primaryKey() -> String? {
         return "_id"
@@ -73,12 +73,12 @@ class StationsGroup: Object, EntitySafe, Codable, Identifiable {
         }
     }
     
-    var stationsIds: [String] {
+    var stationsIds: [Int] {
         let jsonDecoder = JSONDecoder()
-        return (try? jsonDecoder.decode([String].self, from: _stationsIds.data(using: String.Encoding.utf8) ?? Data())) ?? []
+        return (try? jsonDecoder.decode([Int].self, from: _stationsIds.data(using: String.Encoding.utf8) ?? Data())) ?? []
     }
 
-    func addStation(_ station: StationInformation) {
+    func addStation(_ station: Station) {
         self.modify {
             var tmpStationsIds = stationsIds
             tmpStationsIds.append(station.id)
@@ -88,7 +88,7 @@ class StationsGroup: Object, EntitySafe, Codable, Identifiable {
         self.save()
     }
 
-    func removeStation(_ station: StationInformation) {
+    func removeStation(_ station: Station) {
         self.modify {
             var tmpStationsIds = stationsIds
             tmpStationsIds.removeAll(where: { $0 == station.id })
@@ -98,12 +98,12 @@ class StationsGroup: Object, EntitySafe, Codable, Identifiable {
         self.save()
     }
 
-    var stations: [StationInformation] {
+    var stations: [Station] {
         if isInvalidated {
             return []
         }
         if _stations == [] {
-            _stations = DatabaseManager.Instance.realm.objects(StationInformation.self).filterIn(fieldName: "_id", values: stationsIds).toArray(ofType: StationInformation.self)
+            _stations = Station.getAll(filterIn: "_id", values: stationsIds) as? [Station] ?? []
         }
         return _stations
     }
@@ -111,7 +111,7 @@ class StationsGroup: Object, EntitySafe, Codable, Identifiable {
 
 extension StationsGroup {
     func nextIndex() -> Int {
-        DatabaseManager.Instance.realm.objects(StationsGroup.self).sorted(byKeyPath: "_index").toArray(ofType: StationsGroup.self).first?.index ?? 0 + 1
+        (StationsGroup.getFirst(sortedBy: "_index") as? StationsGroup)?.index ?? 0 + 1
     }
     
     convenience init(name: String) {

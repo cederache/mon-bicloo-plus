@@ -76,6 +76,15 @@ extension Results {
             String(format: "\(fieldName) == '%@'", value)
         }).joined(separator: " OR "))
     }
+    
+    func filterIn(fieldName: String, values: [Int]) -> Results<Element> {
+        if values.count == 0 {
+            return filter(NSPredicate(value: false))
+        }
+        return filter(values.map({ (value) -> String in
+            String(format: "\(fieldName) == %i", value)
+        }).joined(separator: " OR "))
+    }
 }
 
 extension RealmSwift.List {

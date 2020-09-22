@@ -11,7 +11,8 @@ import SwiftUI
 struct StationsGroupsView: View {
     @State var editMode: EditMode = .inactive
     @EnvironmentObject var stationsGroupsStore: StationsGroupsStore
-    @State var canEdit: Bool
+    var canEdit: Bool
+    var selectedStation: Station? = nil
 
     var onStationsGroupSelected: ((StationsGroup) -> Void)?
 
@@ -45,8 +46,17 @@ struct StationsGroupsView: View {
                         Button(action: {
                             self.onStationsGroupSelected?(stationsGroup)
                         }) {
-                            TextField("", text: self.stationsGroupBinding(stationsGroup: stationsGroup).name)
-                                .disabled(!self.canEdit || self.editMode == .active)
+                            HStack {
+                                TextField("", text: self.stationsGroupBinding(stationsGroup: stationsGroup).name)
+                                    .disabled(!self.canEdit || self.editMode == .active)
+                                
+                                Spacer()
+                                
+                                if selectedStation != nil && stationsGroup.stations.map({ $0.id }).contains(selectedStation!.id) {
+                                    Image(systemName: "checkmark")
+                                        .foregroundColor(.accentColor)
+                                }
+                            }
                         }
                     }
                     .onDelete(perform: onDelete)

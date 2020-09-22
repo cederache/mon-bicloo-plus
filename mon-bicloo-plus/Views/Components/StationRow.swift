@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct StationStatusView: View {
-    var stationInformation: StationInformation
+    var station: Station
     @State var withUnavailableDocks: Bool = false
     @State var withSpacers: Bool = false
 
@@ -18,28 +18,30 @@ struct StationStatusView: View {
             if withSpacers {
                 Spacer()
             }
-            if stationInformation.status == nil {
-                Text("-")
-            } else {
-                Group {
-                    Text("\(stationInformation.status?.nbBikesAvailable ?? 0)")
-                    Image(systemName: "v.circle")
-                }
-                .foregroundColor(stationInformation.status?.nbBikesAvailableColor ?? Color.primary)
+            Group {
+                Text("\(station.nbBikesAvailable)")
+                    .frame(minWidth: 20, alignment: .trailing)
                 
-                Group {
-                    Text("\(stationInformation.status?.nbDocksAvailable ?? 0)")
-                    Image(systemName: "p.circle")
-                }
-                .foregroundColor(stationInformation.status?.nbDocksAvailableColor ?? Color.primary)
+                Image(systemName: "v.circle", iOS14SystemName: "bicycle")
+            }
+            .foregroundColor(station.nbBikesAvailableColor)
+            
+            Group {
+                Text("\(station.nbDocksAvailable)")
+                    .frame(minWidth: 20, alignment: .trailing)
                 
-                if withUnavailableDocks {
-                    Group {
-                        Text("\(stationInformation.nbDocksOoo)")
-                        Image(systemName: "bolt.circle")
-                    }
-                    .foregroundColor(.yellow)
+                Image(systemName: "p.circle")
+            }
+            .foregroundColor(station.nbDocksAvailableColor)
+            
+            if withUnavailableDocks {
+                Group {
+                    Text("\(station.nbDocksOoo)")
+                        .frame(minWidth: 20, alignment: .trailing)
+                    
+                    Image(systemName: "bolt.circle")
                 }
+                .foregroundColor(.yellow)
             }
             
             if withSpacers {
@@ -50,16 +52,16 @@ struct StationStatusView: View {
 }
 
 struct StationRow: View {
-    @Binding var stationInformation: StationInformation
+    @Binding var station: Station
 
     var body: some View {
-        NavigationLink(destination: StationView(stationInformation: $stationInformation)) {
+        NavigationLink(destination: StationView(station: $station)) {
             HStack {
-                Text(stationInformation.displayNameCapitalized)
+                Text(station.displayNameCapitalized)
 
                 Spacer()
                 
-                StationStatusView(stationInformation: stationInformation)
+                StationStatusView(station: station)
             }
         }
     }
@@ -67,6 +69,6 @@ struct StationRow: View {
 
 struct StationRow_Previews: PreviewProvider {
     static var previews: some View {
-        StationRow(stationInformation: .constant(StationInformation()))
+        StationRow(station: .constant(Station()))
     }
 }

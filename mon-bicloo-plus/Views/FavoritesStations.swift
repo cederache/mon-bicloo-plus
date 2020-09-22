@@ -17,6 +17,8 @@ struct FavoritesStationsView: View {
     @State var showingRefreshView: Bool = false
     @State var firstStationsFetch: Bool = true
     @State var stationsGroupViewPresented: Bool = false
+    
+    @State var fetchError: Bool = false
 
     let loopCallTime = 5.0
 
@@ -28,52 +30,42 @@ struct FavoritesStationsView: View {
         stationsStore.fetch()
         stationsGroupsStore.fetch()
         showingRefreshView = true
-        ServerManager.Instance.FetchStations(onDone: { stations in
-            for station in stations {
-                station.save()
-            }
-
-            self.stationsStore.fetch()
-            self.stationsGroupsStore.fetch()
-
-            for station in stations {
-                self.stationsStore.stationInformations.first(where: { $0.id == station.id })?.status = station.status
-            }
-
-            self.showingRefreshView = false
-
-            // Launch fetch status loop
-            self.fetchStatus(true)
-        }) { _ in
-            logger.error("Can't fetch stations")
-        }
+        
+        // Launch fetch status loop
+        self.fetchStatus(loop: true)
     }
 
-    func fetchStatus(_ loopCalls: Bool = false) {
+    func fetchStatus(loop loopCalls: Bool = false) {
         stationsStore.fetch()
-        showingRefreshView = true
-        ServerManager.Instance.FetchStationsStatus(onDone: { status in
-            self.stationsStore.fetch()
-
-            for stationInformation in self.stationsStore.stationInformations {
-                stationInformation.status = status.first(where: { $0.id == stationInformation.id })
-            }
-
+        showingRefreshView = !loopCalls
+        
+        ServerManager.Instance.FetchStationsStatus(onDone: { stations in
+            self.fetchError = false
             self.showingRefreshView = false
+            
+            stationsStore.fetch()
 
             if loopCalls {
                 DispatchQueue.main.asyncAfter(deadline: .now() + self.loopCallTime, execute: {
-                    self.fetchStatus(loopCalls)
+                    self.fetchStatus(loop: true)
                 })
             }
         }) { _ in
-            logger.error("Can't fetch status")
+            self.fetchError = true
+            logger.error("Can't fetch stations status")
         }
+    }
+    
+    func filteredStations(stationsGroup: StationsGroup) -> [Station] {
+        stationsGroup.stations
+            .filter({ (searchQuery == "" || $0.displayNameCapitalized.lowercased().contains(searchQuery.lowercased())) })
+            .sorted(by: {
+                $0.displayNameCapitalized.localizedCaseInsensitiveCompare($1.displayNameCapitalized) == ComparisonResult.orderedAscending
+            })
     }
 
     func stationsGroupRow(_ stationsGroup: StationsGroup) -> some View {
-        if searchQuery != "" && stationsGroup.stations
-            .filter({ (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) }).count == 0 {
+        if searchQuery != "" && filteredStations(stationsGroup: stationsGroup).count == 0 {
             return HStack {
                 Spacer()
                 Text("Aucune station ne correspond à votre recherche")
@@ -90,13 +82,8 @@ struct FavoritesStationsView: View {
             }
             .eraseToAnyView()
         } else {
-            return ForEach(stationsGroup.stations
-                .filter({ (searchQuery == "" || $0.name.lowercased().contains(searchQuery.lowercased())) })
-                .sorted(by: {
-                    $0.displayNameCapitalized < $1.displayNameCapitalized
-                })
-            ) { (stationInformation: StationInformation) in
-                StationRow(stationInformation: self.$stationsStore.stationInformations[self.stationsStore.stationInformations.firstIndex(of: stationInformation) ?? 0])
+            return ForEach(filteredStations(stationsGroup: stationsGroup)) { (station: Station) in
+                StationRow(station: self.$stationsStore.stationStatus[self.stationsStore.stationStatus.firstIndex(of: station) ?? 0])
             }
             .eraseToAnyView()
         }
@@ -105,6 +92,18 @@ struct FavoritesStationsView: View {
     var body: some View {
         NavigationView {
             VStack {
+                if fetchError {
+                    HStack {
+                        Text("Une erreur est survenue lors de la récupération des données")
+                            .font(.caption)
+                            .italic()
+                            .multilineTextAlignment(.center)
+                    }
+                    .padding([.top, .bottom], 5)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.red)
+                }
+                
                 SearchBar(searchQuery: $searchQuery)
 
                 List {
@@ -132,27 +131,23 @@ struct FavoritesStationsView: View {
                         .environmentObject(self.stationsGroupsStore)
                         .accentColor(Constants.accentColor)
                 }
-
-                NavigationLink(destination: ListStationsView().environmentObject(self.stationsStore)) {
-                    Text("Voir toutes les stations")
+                .pullToRefresh(isShowing: self.$showingRefreshView, onRefresh: {
+                    self.fetchStatus()
+                    self.stationsGroupsStore.fetch()
+                })
+                .onAppear {
+                    self.fetchStationsAtStart()
                 }
+                .navigationBarTitle("Stations favorites")
+                .navigationBarItems(trailing: Button(action: {
+                    self.stationsGroupViewPresented = true
+                }) {
+                    HStack {
+                        Image(systemName: "gear", iOS14SystemName: "gearshape.2.fill")
+                        Text("Groupes")
+                    }
+                })
             }
-            .pullToRefresh(isShowing: self.$showingRefreshView, onRefresh: {
-                self.fetchStatus()
-                self.stationsGroupsStore.fetch()
-            })
-            .onAppear {
-                self.fetchStationsAtStart()
-            }
-            .navigationBarTitle("Stations favorites")
-            .navigationBarItems(trailing: Button(action: {
-                self.stationsGroupViewPresented = true
-            }) {
-                HStack {
-                    Image(systemName: "gear")
-                    Text("Groupes")
-                }
-            })
         }
     }
 }

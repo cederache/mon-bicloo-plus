@@ -15,7 +15,7 @@ struct MapView: View {
     @State var showDisplayModeSwitch: Bool = false
     @State private var displayModeDocks: Bool = false
     
-    var showStation: ((StationInformation) -> Void)? = nil
+    var showStation: ((Station) -> Void)? = nil
 
     enum DisplayMode {
         case Bike

@@ -43,7 +43,7 @@ class DatabaseManager {
             } else {
                 // Use customConfiguration to handle schema migration : https://stackoverflow.com/a/33363554
                 let configuration = Realm.Configuration(
-                    schemaVersion: 2,
+                    schemaVersion: 3,
                     migrationBlock: { migration, oldSchemaVersion in
                     }
                 )

@@ -16,6 +16,6 @@ class StationsGroupsStore: ObservableObject {
     private init() {}
 
     func fetch() {
-        stationsGroups = DatabaseManager.Instance.realm.objects(StationsGroup.self).sorted(byKeyPath: "_name").toArray(ofType: StationsGroup.self)
+        stationsGroups = StationsGroup.getAll(sortedBy: "_name") as? [StationsGroup] ?? []
     }
 }
