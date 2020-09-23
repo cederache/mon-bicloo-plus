@@ -85,7 +85,9 @@ struct FavoritesStationsView: View {
             .eraseToAnyView()
         } else {
             return ForEach(filteredStations(stationsGroup: stationsGroup)) { (station: Station) in
-                StationRow(station: self.$stationsStore.stationStatus[self.stationsStore.stationStatus.firstIndex(of: station) ?? 0])
+                NavigationLink(destination: StationView(station:self.$stationsStore.stationStatus[self.stationsStore.stationStatus.firstIndex(of: station) ?? 0])) {
+                    StationRow(station: self.$stationsStore.stationStatus[self.stationsStore.stationStatus.firstIndex(of: station) ?? 0])
+                }
             }
             .eraseToAnyView()
         }
