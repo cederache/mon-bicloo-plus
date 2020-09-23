@@ -28,7 +28,21 @@
 		2144293024AFF0500083D5D7 /* StationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2144292F24AFF0500083D5D7 /* StationRow.swift */; };
 		214F0FB124B3D1BF00896622 /* MapViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214F0FB024B3D1BE00896622 /* MapViewRepresentable.swift */; };
 		214F0FB324B3DA1E00896622 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214F0FB224B3DA1E00896622 /* ActivityIndicator.swift */; };
+		21680D092519F1ED00D1D349 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21680D082519F1ED00D1D349 /* WidgetKit.framework */; };
+		21680D0B2519F1ED00D1D349 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21680D0A2519F1ED00D1D349 /* SwiftUI.framework */; };
+		21680D0E2519F1ED00D1D349 /* AvailabilityChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21680D0D2519F1ED00D1D349 /* AvailabilityChecker.swift */; };
+		21680D102519F1F000D1D349 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21680D0F2519F1F000D1D349 /* Assets.xcassets */; };
+		21680D142519F1F000D1D349 /* AvailabilityCheckerExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 21680D072519F1ED00D1D349 /* AvailabilityCheckerExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		21680D362519FF3700D1D349 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21680D352519FF3700D1D349 /* Station.swift */; };
+		21680D58251A472A00D1D349 /* StationStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21680D54251A467600D1D349 /* StationStruct.swift */; };
+		21680D65251A47B800D1D349 /* String+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E26E0825066A8900057E9F /* String+Utils.swift */; };
+		21680D6A251A485B00D1D349 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E26E0A25066C7000057E9F /* Constants.swift */; };
+		21680D77251A4B8000D1D349 /* StationStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21680D73251A4B7600D1D349 /* StationStatusView.swift */; };
+		21680D7C251A4BFC00D1D349 /* Image+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218D08802513625B00240C50 /* Image+Utils.swift */; };
+		21680D80251A4D0200D1D349 /* Date+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21680D7F251A4D0200D1D349 /* Date+Utils.swift */; };
+		21680D83251A4D1000D1D349 /* Date+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21680D7F251A4D0200D1D349 /* Date+Utils.swift */; };
+		21680D87251A4D2700D1D349 /* DateFormatter+Formats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21680D86251A4D2700D1D349 /* DateFormatter+Formats.swift */; };
+		21680D8A251A4D2E00D1D349 /* DateFormatter+Formats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21680D86251A4D2700D1D349 /* DateFormatter+Formats.swift */; };
 		218857DA2502721A0064AC34 /* ColoredToggleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218857D92502721A0064AC34 /* ColoredToggleStyle.swift */; };
 		218857DC25027E0E0064AC34 /* Color+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218857DB25027E0E0064AC34 /* Color+Utils.swift */; };
 		218857DE25027EC80064AC34 /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218857DD25027EC80064AC34 /* RoundedCorners.swift */; };
@@ -47,6 +61,16 @@
 		21E83C7424BCB38D007CC89F /* Pods_mon_bicloo_plus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F56D3E927F8071D5B7431540 /* Pods_mon_bicloo_plus.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		21680D122519F1F000D1D349 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 216B0EC024AB1B55007AAC30 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 21680D062519F1ED00D1D349;
+			remoteInfo = AvailabilityCheckerExtension;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		21EB9CDA24BC9E1F000496D3 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -54,6 +78,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				21680D142519F1F000D1D349 /* AvailabilityCheckerExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -83,7 +108,17 @@
 		2144292F24AFF0500083D5D7 /* StationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationRow.swift; sourceTree = "<group>"; };
 		214F0FB024B3D1BE00896622 /* MapViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewRepresentable.swift; sourceTree = "<group>"; };
 		214F0FB224B3DA1E00896622 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		21680D072519F1ED00D1D349 /* AvailabilityCheckerExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AvailabilityCheckerExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		21680D082519F1ED00D1D349 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		21680D0A2519F1ED00D1D349 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		21680D0D2519F1ED00D1D349 /* AvailabilityChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityChecker.swift; sourceTree = "<group>"; };
+		21680D0F2519F1F000D1D349 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		21680D112519F1F000D1D349 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		21680D352519FF3700D1D349 /* Station.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
+		21680D54251A467600D1D349 /* StationStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationStruct.swift; sourceTree = "<group>"; };
+		21680D73251A4B7600D1D349 /* StationStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationStatusView.swift; sourceTree = "<group>"; };
+		21680D7F251A4D0200D1D349 /* Date+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Utils.swift"; sourceTree = "<group>"; };
+		21680D86251A4D2700D1D349 /* DateFormatter+Formats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Formats.swift"; sourceTree = "<group>"; };
 		216B0EC824AB1B55007AAC30 /* Mon Bicloo Plus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mon Bicloo Plus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		218857D92502721A0064AC34 /* ColoredToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoredToggleStyle.swift; sourceTree = "<group>"; };
 		218857DB25027E0E0064AC34 /* Color+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Utils.swift"; sourceTree = "<group>"; };
@@ -107,6 +142,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		21680D042519F1ED00D1D349 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				21680D0B2519F1ED00D1D349 /* SwiftUI.framework in Frameworks */,
+				21680D092519F1ED00D1D349 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		216B0EC524AB1B55007AAC30 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -173,6 +217,8 @@
 				212ACC4424AB208F0008C6AC /* Willow Logger */,
 				218D08802513625B00240C50 /* Image+Utils.swift */,
 				218D088A25136A0100240C50 /* Array+Utils.swift */,
+				21680D7F251A4D0200D1D349 /* Date+Utils.swift */,
+				21680D86251A4D2700D1D349 /* DateFormatter+Formats.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -227,10 +273,23 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		21680D0C2519F1ED00D1D349 /* AvailabilityChecker */ = {
+			isa = PBXGroup;
+			children = (
+				21680D0D2519F1ED00D1D349 /* AvailabilityChecker.swift */,
+				21680D0F2519F1F000D1D349 /* Assets.xcassets */,
+				21680D112519F1F000D1D349 /* Info.plist */,
+				21680D54251A467600D1D349 /* StationStruct.swift */,
+				21680D73251A4B7600D1D349 /* StationStatusView.swift */,
+			);
+			path = AvailabilityChecker;
+			sourceTree = "<group>";
+		};
 		216B0EBF24AB1B55007AAC30 = {
 			isa = PBXGroup;
 			children = (
 				212ACC3424AB1CD50008C6AC /* mon-bicloo-plus */,
+				21680D0C2519F1ED00D1D349 /* AvailabilityChecker */,
 				216B0EC924AB1B55007AAC30 /* Products */,
 				48066A68DF922BDEE1814651 /* Pods */,
 				6E1AB7ACDD01B8C65020C611 /* Frameworks */,
@@ -241,6 +300,7 @@
 			isa = PBXGroup;
 			children = (
 				216B0EC824AB1B55007AAC30 /* Mon Bicloo Plus.app */,
+				21680D072519F1ED00D1D349 /* AvailabilityCheckerExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -259,6 +319,7 @@
 			children = (
 				F56D3E927F8071D5B7431540 /* Pods_mon_bicloo_plus.framework */,
 				21EB9CCE24BC9E1E000496D3 /* NotificationCenter.framework */,
+				21680D082519F1ED00D1D349 /* WidgetKit.framework */,
 				21680D0A2519F1ED00D1D349 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
@@ -267,6 +328,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		21680D062519F1ED00D1D349 /* AvailabilityCheckerExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 21680D172519F1F000D1D349 /* Build configuration list for PBXNativeTarget "AvailabilityCheckerExtension" */;
+			buildPhases = (
+				21680D032519F1ED00D1D349 /* Sources */,
+				21680D042519F1ED00D1D349 /* Frameworks */,
+				21680D052519F1ED00D1D349 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AvailabilityCheckerExtension;
+			productName = AvailabilityCheckerExtension;
+			productReference = 21680D072519F1ED00D1D349 /* AvailabilityCheckerExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		216B0EC724AB1B55007AAC30 /* mon-bicloo-plus */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 216B0EDC24AB1B57007AAC30 /* Build configuration list for PBXNativeTarget "mon-bicloo-plus" */;
@@ -281,6 +359,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				21680D132519F1F000D1D349 /* PBXTargetDependency */,
 			);
 			name = "mon-bicloo-plus";
 			productName = "mon-bicloo-plus";
@@ -293,10 +372,13 @@
 		216B0EC024AB1B55007AAC30 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1150;
+				LastSwiftUpdateCheck = 1200;
 				LastUpgradeCheck = 1150;
 				ORGANIZATIONNAME = "Cédric Derache";
 				TargetAttributes = {
+					21680D062519F1ED00D1D349 = {
+						CreatedOnToolsVersion = 12.0;
+					};
 					216B0EC724AB1B55007AAC30 = {
 						CreatedOnToolsVersion = 11.5;
 					};
@@ -316,11 +398,20 @@
 			projectRoot = "";
 			targets = (
 				216B0EC724AB1B55007AAC30 /* mon-bicloo-plus */,
+				21680D062519F1ED00D1D349 /* AvailabilityCheckerExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		21680D052519F1ED00D1D349 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				21680D102519F1F000D1D349 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		216B0EC624AB1B55007AAC30 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -375,11 +466,27 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		21680D032519F1ED00D1D349 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				21680D77251A4B8000D1D349 /* StationStatusView.swift in Sources */,
+				21680D7C251A4BFC00D1D349 /* Image+Utils.swift in Sources */,
+				21680D58251A472A00D1D349 /* StationStruct.swift in Sources */,
+				21680D0E2519F1ED00D1D349 /* AvailabilityChecker.swift in Sources */,
+				21680D65251A47B800D1D349 /* String+Utils.swift in Sources */,
+				21680D83251A4D1000D1D349 /* Date+Utils.swift in Sources */,
+				21680D6A251A485B00D1D349 /* Constants.swift in Sources */,
+				21680D8A251A4D2E00D1D349 /* DateFormatter+Formats.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		216B0EC424AB1B55007AAC30 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				218D0858251352E300240C50 /* mon_bicloo_plusApp.swift in Sources */,
+				21680D80251A4D0200D1D349 /* Date+Utils.swift in Sources */,
 				212ACC4124AB1CD50008C6AC /* ListStationsView.swift in Sources */,
 				218D08812513625B00240C50 /* Image+Utils.swift in Sources */,
 				21E26E0B25066C7000057E9F /* Constants.swift in Sources */,
@@ -397,6 +504,7 @@
 				21E26E072506615900057E9F /* HomeView.swift in Sources */,
 				21E26E0325065C6D00057E9F /* IntroductionView.swift in Sources */,
 				214F0FB124B3D1BF00896622 /* MapViewRepresentable.swift in Sources */,
+				21680D87251A4D2700D1D349 /* DateFormatter+Formats.swift in Sources */,
 				218D088B25136A0100240C50 /* Array+Utils.swift in Sources */,
 				2144292E24AFF00B0083D5D7 /* FavoritesStations.swift in Sources */,
 				21332FA524B1C47900CE26CF /* DatabaseManager.swift in Sources */,
@@ -419,6 +527,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		21680D132519F1F000D1D349 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 21680D062519F1ED00D1D349 /* AvailabilityCheckerExtension */;
+			targetProxy = 21680D122519F1F000D1D349 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		212ACC3624AB1CD50008C6AC /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -431,6 +547,52 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		21680D152519F1F000D1D349 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = QU35VLK5F8;
+				INFOPLIST_FILE = AvailabilityChecker/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cederache.mon-bicloo-plus.ios.AvailabilityChecker";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		21680D162519F1F000D1D349 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = QU35VLK5F8;
+				INFOPLIST_FILE = AvailabilityChecker/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cederache.mon-bicloo-plus.ios.AvailabilityChecker";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		216B0EDA24AB1B57007AAC30 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -596,6 +758,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		21680D172519F1F000D1D349 /* Build configuration list for PBXNativeTarget "AvailabilityCheckerExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				21680D152519F1F000D1D349 /* Debug */,
+				21680D162519F1F000D1D349 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		216B0EC324AB1B55007AAC30 /* Build configuration list for PBXProject "mon-bicloo-plus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

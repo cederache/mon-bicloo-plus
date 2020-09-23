@@ -9,6 +9,7 @@
 import Alamofire
 import Foundation
 import Network
+import WidgetKit
 
 class ServerManager {
     // MARK: - Instance
@@ -40,10 +41,8 @@ class ServerManager {
 
     // MARK: - Stations
 
-    private let staticStationsStatusURL = "https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=244400404_stations-velos-libre-service-nantes-metropole-disponibilites&q=&rows=999"
-
     func FetchStationsStatus(onDone: @escaping ([Station]) -> Void, onError: @escaping (Error?) -> Void) {
-        GET(staticStationsStatusURL).response(queue: queue) { response in
+        GET(Constants.stationDataSetURL).response(queue: queue) { response in
             self.GlobalHandler(response: response, onError: onError, onNoInternet: {
                 onDone([])
             }) { response in
@@ -56,6 +55,7 @@ class ServerManager {
                         station.save()
                     }
                     
+                    WidgetCenter.shared.reloadAllTimelines()
                     onDone(stationsRecords.records.map({$0.fields}))
                 } catch {
                     logger.error("Error while create StationsStatus \(error)")
