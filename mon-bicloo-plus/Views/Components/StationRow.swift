@@ -55,14 +55,12 @@ struct StationRow: View {
     @Binding var station: Station
 
     var body: some View {
-        NavigationLink(destination: StationView(station: $station)) {
-            HStack {
-                Text(station.displayNameCapitalized)
+        HStack {
+            Text(station.displayNameCapitalized)
 
-                Spacer()
-                
-                StationStatusView(station: station)
-            }
+            Spacer()
+            
+            StationStatusView(station: station)
         }
     }
 }

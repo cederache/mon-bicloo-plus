@@ -65,7 +65,9 @@ struct FavoritesStationsView: View {
     }
 
     func stationsGroupRow(_ stationsGroup: StationsGroup) -> some View {
-        if searchQuery != "" && filteredStations(stationsGroup: stationsGroup).count == 0 {
+        if self.stationsStore.stationStatus.count == 0 {
+            return Text("Chargement").eraseToAnyView()
+        } else if searchQuery != "" && filteredStations(stationsGroup: stationsGroup).count == 0 {
             return HStack {
                 Spacer()
                 Text("Aucune station ne correspond à votre recherche")

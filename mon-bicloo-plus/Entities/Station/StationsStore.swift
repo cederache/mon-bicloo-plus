@@ -16,6 +16,30 @@ class StationsStore: ObservableObject {
     private init() {}
 
     func fetch() {
-        stationStatus = Station.getAll() as? [Station] ?? []
+        var stations = Station.getAll() as? [Station] ?? []
+        var stationsToRemove: [Station] = []
+        
+        if stationStatus.count == 0 {
+            stationStatus = stations
+        } else {
+            for station in stationStatus {
+                let newStationIndex = stations.firstIndex(where: { $0.id == station.id })
+                
+                if let stationIndex = newStationIndex {
+                    station.mergeWithNewStation(stations[stationIndex])
+                    stations.remove(at: stationIndex)
+                } else {
+                    stationsToRemove.append(station)
+                }
+            }
+            
+            for stationToRemove in stationsToRemove {
+                stationStatus.removeAll(where: { $0.id == stationToRemove.id })
+            }
+            
+            for newStation in stations {
+                stationStatus.append(newStation)
+            }
+        }
     }
 }

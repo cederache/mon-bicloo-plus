@@ -87,7 +87,9 @@ struct ListStationsView: View {
                         }
                         
                         ForEach(self.filteredStations) { (station: Station) in
-                            StationRow(station: self.$stationsStore.stationStatus[self.stationsStore.stationStatus.firstIndex(of: station) ?? 0])
+                            NavigationLink(destination: StationView(station: self.$stationsStore.stationStatus[self.stationsStore.stationStatus.firstIndex(of: station) ?? 0])) {
+                                StationRow(station: self.$stationsStore.stationStatus[self.stationsStore.stationStatus.firstIndex(of: station) ?? 0])
+                            }
                         }
                     }
                     .listStyle(PlainListStyle())

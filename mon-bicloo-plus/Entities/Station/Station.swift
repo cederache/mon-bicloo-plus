@@ -161,6 +161,19 @@ class Station: Object, Codable, Identifiable {
     var annotation: StationAnnotation {
         return StationAnnotation(title: name, latitude: latitude, longitude: longitude, station: self)
     }
+    
+    func mergeWithNewStation(_ unsafeStation: Station?) {
+        self.modifyIfNeeded {
+            if let station = unsafeStation, station._id == _id {
+                _capacity = station._capacity
+                _nbDocksAvailable = station._nbDocksAvailable
+                _nbBikesAvailable = station._nbBikesAvailable
+                _lastReported = station._lastReported
+                _address = station._address
+                __position = station.__position
+            }
+        }
+    }
 
     override func save() {
         _position.removeAll()
