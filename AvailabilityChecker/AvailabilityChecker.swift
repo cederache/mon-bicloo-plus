@@ -33,7 +33,7 @@ public class DataFetcher: ObservableObject {
 }
 
 struct Provider: TimelineProvider {
-    var snapshotEntry = SimpleEntry(date: Date(), stations: [StationStruct(id: 1, name: "École d'Architecture", capacity: 25, nbDocksAvailable: 10, nbBikesAvailable: 13)])
+    var snapshotEntry = SimpleEntry(date: Date(), stations: [StationStruct(id: 1, name: "École d'Architecture", capacity: 25, nbDocksAvailable: 10, nbBikesAvailable: 13), StationStruct(id: 2, name: "Gare De Pont Rousseau", capacity: 15, nbDocksAvailable: 10, nbBikesAvailable: 5), StationStruct(id: 3, name: "Gare Maritime", capacity: 30, nbDocksAvailable: 20, nbBikesAvailable: 13)])
 
     func placeholder(in context: Context) -> SimpleEntry {
         return snapshotEntry
@@ -45,7 +45,7 @@ struct Provider: TimelineProvider {
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
         DataFetcher.Instance.getStations { stations in
-            let filteredStations = stations.filter({ $0.id == 77 || $0.id == 98 })
+            let filteredStations = stations.filter({ $0.id == 77 || $0.id == 98 || $0.id == 102 || $0.id == 42 })
             
             let date = Date()
             
@@ -62,22 +62,57 @@ struct SimpleEntry: TimelineEntry {
 }
 
 struct AvailabilityCheckerEntryView: View {
+    @Environment(\.widgetFamily) private var widgetFamily
     var entry: SimpleEntry
+    
+    var maxDisplayableStations: Int {
+        widgetFamily == .systemSmall ? 3 : (widgetFamily == .systemMedium ? 6 : 12)
+    }
+    
+    var displayableStations: [StationStruct] {
+        Array(entry.stations.prefix(maxDisplayableStations))
+    }
+    
+    var nbRows: Int {
+        maxDisplayableStations / nbColumns + (maxDisplayableStations % nbColumns == 0 ? 0 : 1)
+    }
+    
+    var nbColumns: Int {
+        widgetFamily == .systemSmall ? 1 : 2
+    }
+    
+    func stationAtRowCol(row: Int, col: Int) -> StationStruct? {
+        if displayableStations.count > row * nbColumns + col {
+            return displayableStations[row * nbColumns + col]
+        }
+        return nil
+    }
 
     var body: some View {
         VStack(alignment: .center) {
-            if entry.stations.count == 0 {
+            if displayableStations.count == 0 {
                 Spacer()
                 Text("Problème de récupération des données")
                     .italic()
                     .foregroundColor(.red)
                     .multilineTextAlignment(.center)
             } else {
-                ForEach(entry.stations) { (station: StationStruct) in
-                    VStack(alignment: .center) {
-                        StationStatusView(station: station)
-                        Text(station.displayName)
-                            .font(.footnote)
+                ForEach(0...(nbRows-1), id: \.self) { row in
+                    HStack(spacing: 10) {
+                        ForEach(0...(nbColumns-1), id: \.self) { col in
+                            VStack(alignment: .center) {
+                                if self.displayableStations.count > row * self.nbColumns + col {
+                                    VStack(alignment: .center) {
+                                        StationStatusView(station: self.stationAtRowCol(row: row, col: col) ?? StationStruct())
+                                        Text(self.stationAtRowCol(row: row, col: col)?.displayName ?? "")
+                                            .font(.footnote)
+                                    }
+                                } else {
+                                    EmptyView()
+                                }
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        }
                     }
                 }
             }
