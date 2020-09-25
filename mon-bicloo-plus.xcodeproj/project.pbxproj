@@ -11,6 +11,10 @@
 		2107E32924B672E300CAC00F /* StationsGroupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2107E32824B672E300CAC00F /* StationsGroupsView.swift */; };
 		2107E32B24B6731B00CAC00F /* StationsGroupsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2107E32A24B6731B00CAC00F /* StationsGroupsStore.swift */; };
 		2107E32D24B6806D00CAC00F /* SwiftUI+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2107E32C24B6806D00CAC00F /* SwiftUI+Utils.swift */; };
+		2119C6BE251DDAB1008E390E /* CumulativeCircularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119C6BD251DDAB1008E390E /* CumulativeCircularProgress.swift */; };
+		2119C6C3251DDD73008E390E /* CumulativeCircularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119C6BD251DDAB1008E390E /* CumulativeCircularProgress.swift */; };
+		2119C6C7251DDFCB008E390E /* View+RelativeSizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119C6C6251DDFCB008E390E /* View+RelativeSizes.swift */; };
+		2119C6CA251DDFD7008E390E /* View+RelativeSizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119C6C6251DDFCB008E390E /* View+RelativeSizes.swift */; };
 		2126759A24AFB5140058FDF1 /* StationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2126759924AFB5140058FDF1 /* StationView.swift */; };
 		212ACC3D24AB1CD50008C6AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 212ACC3524AB1CD50008C6AC /* Assets.xcassets */; };
 		212ACC3E24AB1CD50008C6AC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 212ACC3624AB1CD50008C6AC /* LaunchScreen.storyboard */; };
@@ -90,6 +94,8 @@
 		2107E32824B672E300CAC00F /* StationsGroupsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationsGroupsView.swift; sourceTree = "<group>"; };
 		2107E32A24B6731B00CAC00F /* StationsGroupsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationsGroupsStore.swift; sourceTree = "<group>"; };
 		2107E32C24B6806D00CAC00F /* SwiftUI+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI+Utils.swift"; sourceTree = "<group>"; };
+		2119C6BD251DDAB1008E390E /* CumulativeCircularProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CumulativeCircularProgress.swift; sourceTree = "<group>"; };
+		2119C6C6251DDFCB008E390E /* View+RelativeSizes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+RelativeSizes.swift"; sourceTree = "<group>"; };
 		2126759924AFB5140058FDF1 /* StationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationView.swift; sourceTree = "<group>"; };
 		212ACC3524AB1CD50008C6AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		212ACC3724AB1CD50008C6AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -219,6 +225,7 @@
 				218D088A25136A0100240C50 /* Array+Utils.swift */,
 				21680D7F251A4D0200D1D349 /* Date+Utils.swift */,
 				21680D86251A4D2700D1D349 /* DateFormatter+Formats.swift */,
+				2119C6C6251DDFCB008E390E /* View+RelativeSizes.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -269,6 +276,7 @@
 				214F0FB024B3D1BE00896622 /* MapViewRepresentable.swift */,
 				2144292924AFE48C0083D5D7 /* SearchBar.swift */,
 				2144292F24AFF0500083D5D7 /* StationRow.swift */,
+				2119C6BD251DDAB1008E390E /* CumulativeCircularProgress.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -373,7 +381,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1200;
-				LastUpgradeCheck = 1150;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Cédric Derache";
 				TargetAttributes = {
 					21680D062519F1ED00D1D349 = {
@@ -474,7 +482,9 @@
 				21680D7C251A4BFC00D1D349 /* Image+Utils.swift in Sources */,
 				21680D58251A472A00D1D349 /* StationStruct.swift in Sources */,
 				21680D0E2519F1ED00D1D349 /* AvailabilityChecker.swift in Sources */,
+				2119C6C3251DDD73008E390E /* CumulativeCircularProgress.swift in Sources */,
 				21680D65251A47B800D1D349 /* String+Utils.swift in Sources */,
+				2119C6CA251DDFD7008E390E /* View+RelativeSizes.swift in Sources */,
 				21680D83251A4D1000D1D349 /* Date+Utils.swift in Sources */,
 				21680D6A251A485B00D1D349 /* Constants.swift in Sources */,
 				21680D8A251A4D2E00D1D349 /* DateFormatter+Formats.swift in Sources */,
@@ -489,6 +499,7 @@
 				21680D80251A4D0200D1D349 /* Date+Utils.swift in Sources */,
 				212ACC4124AB1CD50008C6AC /* ListStationsView.swift in Sources */,
 				218D08812513625B00240C50 /* Image+Utils.swift in Sources */,
+				2119C6BE251DDAB1008E390E /* CumulativeCircularProgress.swift in Sources */,
 				21E26E0B25066C7000057E9F /* Constants.swift in Sources */,
 				2107E32924B672E300CAC00F /* StationsGroupsView.swift in Sources */,
 				2107E32D24B6806D00CAC00F /* SwiftUI+Utils.swift in Sources */,
@@ -512,6 +523,7 @@
 				2107E32B24B6731B00CAC00F /* StationsGroupsStore.swift in Sources */,
 				21D946A224FFE5DB00E58C1E /* MapView.swift in Sources */,
 				21E26E0525065F7700057E9F /* UserInformations.swift in Sources */,
+				2119C6C7251DDFCB008E390E /* View+RelativeSizes.swift in Sources */,
 				218D0886251363FC00240C50 /* StationsTabView.swift in Sources */,
 				21332FA724B1C55E00CE26CF /* Entity.swift in Sources */,
 				218857DE25027EC80064AC34 /* RoundedCorners.swift in Sources */,
@@ -619,6 +631,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -679,6 +692,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

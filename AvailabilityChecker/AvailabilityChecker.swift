@@ -44,8 +44,15 @@ struct Provider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
+        let stationsId = [77, 98, 102, 42]
+        
         DataFetcher.Instance.getStations { stations in
-            let filteredStations = stations.filter({ $0.id == 77 || $0.id == 98 || $0.id == 102 || $0.id == 42 })
+            var filteredStations: [StationStruct] = []
+            for stationId in stationsId {
+                if let station = stations.first(where: { $0.id == stationId }) {
+                    filteredStations.append(station)
+                }
+            }
             
             let date = Date()
             
@@ -87,6 +94,12 @@ struct AvailabilityCheckerEntryView: View {
         }
         return nil
     }
+    
+    func progressValuesFromStation(_ station: StationStruct) -> [ProgressValue] {
+        return [ProgressValue(value: station.nbBikesAvailable, color: .green),
+         ProgressValue(value: station.nbDocksAvailable, color: .blue),
+         ProgressValue(value: station.nbDocksOoo, color: .red)]
+    }
 
     var body: some View {
         VStack(alignment: .center) {
@@ -103,9 +116,25 @@ struct AvailabilityCheckerEntryView: View {
                             VStack(alignment: .center) {
                                 if self.displayableStations.count > row * self.nbColumns + col {
                                     VStack(alignment: .center) {
-                                        StationStatusView(station: self.stationAtRowCol(row: row, col: col) ?? StationStruct())
-                                        Text(self.stationAtRowCol(row: row, col: col)?.displayName ?? "")
-                                            .font(.footnote)
+                                        HStack {
+                                            CumulativeCircularProgress(values: self.progressValuesFromStation(self.stationAtRowCol(row: row, col: col) ?? StationStruct()), lineWidth: CGFloat(5)) {
+                                                if (self.stationAtRowCol(row: row, col: col)?.nbBikesAvailable ?? 0) <= 3 {
+                                                    Text("\(self.stationAtRowCol(row: row, col: col)?.nbBikesAvailable ?? 0)")
+                                                        .foregroundColor(.green)
+                                                } else if (self.stationAtRowCol(row: row, col: col)?.nbDocksAvailable ?? 0) <= 3 {
+                                                    Text("\(self.stationAtRowCol(row: row, col: col)?.nbDocksAvailable ?? 0)")
+                                                        .foregroundColor(.blue)
+                                                }
+                                            }
+                                            .frame(minWidth: 40, idealWidth: 40, maxWidth: 40)
+                                            
+                                            Text(self.stationAtRowCol(row: row, col: col)?.displayName ?? "")
+                                                .font(.caption)
+                                                .lineLimit(2)
+                                                .multilineTextAlignment(.leading)
+                                            
+                                            Spacer()
+                                        }
                                     }
                                 } else {
                                     EmptyView()
@@ -121,7 +150,8 @@ struct AvailabilityCheckerEntryView: View {
                 .font(.footnote)
                 .multilineTextAlignment(.center)
         }
-        .padding([.leading, .trailing, .top, .bottom], 5)
+        .padding([.top, .bottom], 10)
+        .padding([.leading, .trailing], 5)
     }
 }
 
@@ -140,7 +170,7 @@ struct AvailabilityChecker: Widget {
 
 struct AvailabilityChecker_Previews: PreviewProvider {
     static var previews: some View {
-        AvailabilityCheckerEntryView(entry: SimpleEntry(date: Date(), stations: []))
+        AvailabilityCheckerEntryView(entry: SimpleEntry(date: Date(), stations: [StationStruct(id: 1, name: "Station", capacity: 10, nbDocksAvailable: 6, nbBikesAvailable: 3)]))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }
