@@ -21,24 +21,6 @@ struct StationView: View {
 
     var body: some View {
         VStack {
-            HStack {
-                Text(station.displayName)
-                    .font(.largeTitle)
-                Spacer()
-            }
-
-            StationStatusView(station: station, withUnavailableDocks: true, withSpacers: true)
-                .padding([.top, .bottom], 10)
-
-            Button(action: {
-                self.stationsGroupViewPresented = true
-            }) {
-                HStack {
-                    Image(systemName: "gear", iOS14SystemName: "gearshape.2.fill")
-                    Text("Modifier son / ses groupe(s)")
-                }
-            }
-
             ZStack {
                 MapView(checkpoints: [self.station.annotation], loadingMapView: $loadingMapView)
 
@@ -59,37 +41,61 @@ struct StationView: View {
                     .environmentObject(self.stationsGroupStore)
                     .accentColor(Constants.accentColor)
             }
+            
+            Text(station.displayName)
+                .font(.largeTitle)
 
-            Button(action: {
-                self.showActionSheet = true
-            }) {
-                HStack {
-                    Image(systemName: "arrowshape.turn.up.right.circle.fill", iOS14SystemName: "signpost.right.fill")
-                    Text("Aller à la station")
+            StationStatusView(station: station, withUnavailableDocks: true, withSpacers: true)
+                .padding([.top, .bottom], 10)
+            
+            HStack {
+                Spacer()
+                
+                Button(action: {
+                    self.stationsGroupViewPresented = true
+                }) {
+                    HStack {
+                        Image(systemName: "star.fill")
+                        Text("Ajouter au favoris")
+                    }
                 }
-            }
-            .actionSheet(isPresented: $showActionSheet) {
-                var buttons: [Alert.Button] = [
-                    .cancel {},
-                    .default(Text("Apple Plans")) {
-                        let coordinate = CLLocationCoordinate2DMake(self.station.latitude, self.station.longitude)
-                        let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coordinate, addressDictionary: nil))
-                        mapItem.name = self.station.name
-                        mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeWalking])
-                    }]
+                
+                Spacer()
 
-                if let url = URL(string:
-                    "comgooglemaps://?saddr=&daddr=\(self.station.latitude),\(self.station.longitude)&directionsmode=walking"),  UIApplication.shared.canOpenURL(url) {
-                    buttons.append(.default(Text("Google Maps")) {
-                        UIApplication.shared.open(url)
-                    })
+                Button(action: {
+                    self.showActionSheet = true
+                }) {
+                    HStack {
+                        Image(systemName: "mappin.and.ellipse")
+                        Text("Aller à la station")
+                    }
                 }
+                .actionSheet(isPresented: $showActionSheet) {
+                    var buttons: [Alert.Button] = [
+                        .cancel {},
+                        .default(Text("Apple Plans")) {
+                            let coordinate = CLLocationCoordinate2DMake(self.station.latitude, self.station.longitude)
+                            let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coordinate, addressDictionary: nil))
+                            mapItem.name = self.station.name
+                            mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeWalking])
+                        }]
 
-                return ActionSheet(title: Text("Aller à la station"), buttons: buttons)
+                    if let url = URL(string:
+                        "comgooglemaps://?saddr=&daddr=\(self.station.latitude),\(self.station.longitude)&directionsmode=walking"),  UIApplication.shared.canOpenURL(url) {
+                        buttons.append(.default(Text("Google Maps")) {
+                            UIApplication.shared.open(url)
+                        })
+                    }
+
+                    return ActionSheet(title: Text("Aller à la station"), buttons: buttons)
+                }
+                
+                Spacer()
             }
+            .padding([.bottom], 15)
+            .navigationBarTitle(Text(""), displayMode: .inline)
         }
         .padding(10)
-        .navigationBarTitle("Station")
     }
 }
 

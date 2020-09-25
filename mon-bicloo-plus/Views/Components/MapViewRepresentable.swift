@@ -55,9 +55,9 @@ struct MapViewRepresentable: UIViewRepresentable {
             
             // Zoom on annotations
             if !changeDisplayMode {
-                uiView.showAnnotations(uiView.annotations, animated: true)
+                uiView.showAnnotations(uiView.annotations, animated: false)
+                uiView.setCenter(uiView.centerCoordinate, animated: true)
             }
-            print("Updating map \(uiView.tag) \(hasUserLocationAnnotation)")
         }
     }
 
