@@ -63,6 +63,7 @@
 		21E26E0925066A8900057E9F /* String+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E26E0825066A8900057E9F /* String+Utils.swift */; };
 		21E26E0B25066C7000057E9F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E26E0A25066C7000057E9F /* Constants.swift */; };
 		21E83C7424BCB38D007CC89F /* Pods_mon_bicloo_plus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F56D3E927F8071D5B7431540 /* Pods_mon_bicloo_plus.framework */; };
+		21F1F2B82521FAA2001F1D69 /* StationGroupRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F1F2B72521FAA2001F1D69 /* StationGroupRow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,6 +143,7 @@
 		21E26E0825066A8900057E9F /* String+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Utils.swift"; sourceTree = "<group>"; };
 		21E26E0A25066C7000057E9F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		21EB9CCE24BC9E1E000496D3 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		21F1F2B72521FAA2001F1D69 /* StationGroupRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationGroupRow.swift; sourceTree = "<group>"; };
 		9C4424BFC586C0F7407D56C0 /* Pods-mon-bicloo-plus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mon-bicloo-plus.debug.xcconfig"; path = "Target Support Files/Pods-mon-bicloo-plus/Pods-mon-bicloo-plus.debug.xcconfig"; sourceTree = "<group>"; };
 		B7A195A9ED9FBB04CC0AE523 /* Pods-mon-bicloo-plus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mon-bicloo-plus.release.xcconfig"; path = "Target Support Files/Pods-mon-bicloo-plus/Pods-mon-bicloo-plus.release.xcconfig"; sourceTree = "<group>"; };
 		F56D3E927F8071D5B7431540 /* Pods_mon_bicloo_plus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mon_bicloo_plus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -271,12 +273,13 @@
 			children = (
 				214F0FB224B3DA1E00896622 /* ActivityIndicator.swift */,
 				218857D92502721A0064AC34 /* ColoredToggleStyle.swift */,
+				2119C6BD251DDAB1008E390E /* CumulativeCircularProgress.swift */,
 				21E26DFC25065AB000057E9F /* IntroductionDetailView.swift */,
 				21D946A124FFE5DB00E58C1E /* MapView.swift */,
 				214F0FB024B3D1BE00896622 /* MapViewRepresentable.swift */,
 				2144292924AFE48C0083D5D7 /* SearchBar.swift */,
+				21F1F2B72521FAA2001F1D69 /* StationGroupRow.swift */,
 				2144292F24AFF0500083D5D7 /* StationRow.swift */,
-				2119C6BD251DDAB1008E390E /* CumulativeCircularProgress.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -510,6 +513,7 @@
 				2144293024AFF0500083D5D7 /* StationRow.swift in Sources */,
 				212ACC4824AB208F0008C6AC /* LoggingProxy.swift in Sources */,
 				21E26E0925066A8900057E9F /* String+Utils.swift in Sources */,
+				21F1F2B82521FAA2001F1D69 /* StationGroupRow.swift in Sources */,
 				212ACC4A24AB208F0008C6AC /* LoggingConfiguration.swift in Sources */,
 				21D946A024FFA1BB00E58C1E /* MapCalloutView.swift in Sources */,
 				21E26E072506615900057E9F /* HomeView.swift in Sources */,

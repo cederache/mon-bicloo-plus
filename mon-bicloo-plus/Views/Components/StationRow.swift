@@ -8,6 +8,23 @@
 
 import SwiftUI
 
+struct StationRow: View {
+    var station: Station
+
+    var body: some View {
+        HStack {
+            VStack {
+                Text(station.displayNameCapitalized)
+//                Text(station.lastReported)
+            }
+
+            Spacer()
+            
+            StationStatusView(station: station)
+        }
+    }
+}
+
 struct StationStatusView: View {
     var station: Station
     @State var withUnavailableDocks: Bool = false
@@ -51,22 +68,8 @@ struct StationStatusView: View {
     }
 }
 
-struct StationRow: View {
-    @Binding var station: Station
-
-    var body: some View {
-        HStack {
-            Text(station.displayNameCapitalized)
-
-            Spacer()
-            
-            StationStatusView(station: station)
-        }
-    }
-}
-
 struct StationRow_Previews: PreviewProvider {
     static var previews: some View {
-        StationRow(station: .constant(Station()))
+        StationRow(station: Station())
     }
 }

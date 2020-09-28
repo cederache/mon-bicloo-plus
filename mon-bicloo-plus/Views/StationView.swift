@@ -13,7 +13,7 @@ struct StationView: View {
     @EnvironmentObject var stationsStore: StationsStore
     @EnvironmentObject var stationsGroupStore: StationsGroupsStore
 
-    @Binding var station: Station
+    var station: Station
     @State var loadingMapView: Bool = true
     @State var stationsGroupViewPresented: Bool = false
 
@@ -101,7 +101,7 @@ struct StationView: View {
 
 struct StationView_Previews: PreviewProvider {
     static var previews: some View {
-        StationView(station: .constant(Station()))
+        StationView(station: Station())
             .environmentObject(StationsStore.Instance)
     }
 }

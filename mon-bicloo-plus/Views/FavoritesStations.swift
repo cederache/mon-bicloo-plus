@@ -17,7 +17,7 @@ struct FavoritesStationsView: View {
     @State var showingRefreshView: Bool = false
     @State var firstStationsFetch: Bool = true
     @State var stationsGroupViewPresented: Bool = false
-    
+
     @State var fetchError: Bool = false
 
     let loopCallTime = 5.0
@@ -30,20 +30,21 @@ struct FavoritesStationsView: View {
         stationsStore.fetch()
         stationsGroupsStore.fetch()
         showingRefreshView = true
-        
+
         // Launch fetch status loop
-        self.fetchStatus(loop: true)
+        fetchStatus(loop: true)
     }
 
     func fetchStatus(loop loopCalls: Bool = false) {
         stationsStore.fetch()
         showingRefreshView = !loopCalls
-        
-        ServerManager.Instance.FetchStationsStatus(onDone: { stations in
+
+        ServerManager.Instance.FetchStationsStatus(onDone: { _ in
             self.fetchError = false
             self.showingRefreshView = false
-            
+
             stationsStore.fetch()
+            self.stationsGroupsStore.fetch()
 
             if loopCalls {
                 DispatchQueue.main.asyncAfter(deadline: .now() + self.loopCallTime, execute: {
@@ -53,43 +54,6 @@ struct FavoritesStationsView: View {
         }) { _ in
             self.fetchError = true
             logger.error("Can't fetch stations status")
-        }
-    }
-    
-    func filteredStations(stationsGroup: StationsGroup) -> [Station] {
-        stationsGroup.stations
-            .filter({ (searchQuery == "" || $0.displayNameCapitalized.lowercased().contains(searchQuery.lowercased())) })
-            .sorted(by: {
-                $0.displayNameCapitalized.localizedCaseInsensitiveCompare($1.displayNameCapitalized) == ComparisonResult.orderedAscending
-            })
-    }
-
-    func stationsGroupRow(_ stationsGroup: StationsGroup) -> some View {
-        if self.stationsStore.stationStatus.count == 0 {
-            return Text("Chargement").eraseToAnyView()
-        } else if searchQuery != "" && filteredStations(stationsGroup: stationsGroup).count == 0 {
-            return HStack {
-                Spacer()
-                Text("Aucune station ne correspond à votre recherche")
-                    .italic()
-                Spacer()
-            }
-            .eraseToAnyView()
-        } else if stationsGroup.stations.count == 0 {
-            return HStack {
-                Spacer()
-                Text("Aucune station dans ce groupe")
-                    .italic()
-                Spacer()
-            }
-            .eraseToAnyView()
-        } else {
-            return ForEach(filteredStations(stationsGroup: stationsGroup)) { (station: Station) in
-                NavigationLink(destination: StationView(station:self.$stationsStore.stationStatus[self.stationsStore.stationStatus.firstIndex(of: station) ?? 0])) {
-                    StationRow(station: self.$stationsStore.stationStatus[self.stationsStore.stationStatus.firstIndex(of: station) ?? 0])
-                }
-            }
-            .eraseToAnyView()
         }
     }
 
@@ -107,7 +71,7 @@ struct FavoritesStationsView: View {
                     .frame(maxWidth: .infinity)
                     .background(Color.red)
                 }
-                
+
                 SearchBar(searchQuery: $searchQuery)
 
                 List {
@@ -124,7 +88,8 @@ struct FavoritesStationsView: View {
                     } else {
                         ForEach(stationsGroupsStore.stationsGroups) { stationsGroup in
                             Section(header: Text(stationsGroup.name)) {
-                                self.stationsGroupRow(stationsGroup)
+                                StationGroupRow(stationsGroup: stationsGroup, searchQuery: self.searchQuery)
+                                    .environmentObject(self.stationsStore)
                             }
                         }
                     }

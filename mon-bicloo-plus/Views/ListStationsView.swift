@@ -87,8 +87,8 @@ struct ListStationsView: View {
                         }
                         
                         ForEach(self.filteredStations) { (station: Station) in
-                            NavigationLink(destination: StationView(station: self.$stationsStore.stationStatus[self.stationsStore.stationStatus.firstIndex(of: station) ?? 0])) {
-                                StationRow(station: self.$stationsStore.stationStatus[self.stationsStore.stationStatus.firstIndex(of: station) ?? 0])
+                            NavigationLink(destination: StationView(station: station)) {
+                                StationRow(station: station)
                             }
                         }
                     }
@@ -99,7 +99,7 @@ struct ListStationsView: View {
                     .transition(.move(edge: .leading))
                 } else if displayMode == .Map {
                     ZStack {
-                        NavigationLink(destination: StationView(station: $selectedStation), isActive: $showStation) {
+                        NavigationLink(destination: StationView(station: selectedStation), isActive: $showStation) {
                             EmptyView()
                         }
                         .hidden()
