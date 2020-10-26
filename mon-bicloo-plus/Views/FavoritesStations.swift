@@ -94,7 +94,7 @@ struct FavoritesStationsView: View {
                         }
                     }
                 }
-                .listStyle(PlainListStyle())
+                .listStyle(InsetGroupedListStyle())
                 .sheet(isPresented: $stationsGroupViewPresented) {
                     StationsGroupsView(canEdit: true)
                         .environmentObject(self.stationsGroupsStore)

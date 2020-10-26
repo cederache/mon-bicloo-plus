@@ -11,7 +11,7 @@ import RealmSwift
 import SwiftUI
 
 extension Object {
-    @objc func modifyIfNeeded(_ block: () -> Void) {
+    @objc static func modifyIfNeeded(_ block: () -> Void) {
         if DatabaseManager.Instance.realm.isInWriteTransaction {
             block()
         } else {
@@ -19,12 +19,20 @@ extension Object {
         }
     }
 
-    @objc func modify(_ block: () -> Void) {
+    @objc static func modify(_ block: () -> Void) {
         do {
             try DatabaseManager.Instance.realm.write(block)
         } catch {
             logger.error("An error occured while modifying this object \(error)")
         }
+    }
+    
+    @objc func modifyIfNeeded(_ block: () -> Void) {
+        Self.modifyIfNeeded(block)
+    }
+
+    @objc func modify(_ block: () -> Void) {
+        Self.modify(block)
     }
 
     @objc func save() {

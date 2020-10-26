@@ -41,9 +41,7 @@ struct StationGroupRow: View {
                 .sorted(by: {
                     $0.displayNameCapitalized.localizedCaseInsensitiveCompare($1.displayNameCapitalized) == ComparisonResult.orderedAscending
                 })) { (station: Station) in
-                NavigationLink(destination: StationView(station: station)) {
-                    StationRow(station: station)
-                }
+                StationRow(station: station, withUnavailableDocks: true)
             }
             .eraseToAnyView()
         }

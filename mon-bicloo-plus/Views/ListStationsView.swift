@@ -87,12 +87,10 @@ struct ListStationsView: View {
                         }
                         
                         ForEach(self.filteredStations) { (station: Station) in
-                            NavigationLink(destination: StationView(station: station)) {
-                                StationRow(station: station)
-                            }
+                            StationRow(station: station, withUnavailableDocks: true)
                         }
                     }
-                    .listStyle(PlainListStyle())
+                    .listStyle(InsetGroupedListStyle())
                     .pullToRefresh(isShowing: self.$showingRefreshView, onRefresh: {
                         self.fetchStatus()
                     })

@@ -11,7 +11,6 @@
 		2107E32924B672E300CAC00F /* StationsGroupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2107E32824B672E300CAC00F /* StationsGroupsView.swift */; };
 		2107E32B24B6731B00CAC00F /* StationsGroupsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2107E32A24B6731B00CAC00F /* StationsGroupsStore.swift */; };
 		2107E32D24B6806D00CAC00F /* SwiftUI+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2107E32C24B6806D00CAC00F /* SwiftUI+Utils.swift */; };
-		2119C6BE251DDAB1008E390E /* CumulativeCircularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119C6BD251DDAB1008E390E /* CumulativeCircularProgress.swift */; };
 		2119C6C3251DDD73008E390E /* CumulativeCircularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119C6BD251DDAB1008E390E /* CumulativeCircularProgress.swift */; };
 		2119C6C7251DDFCB008E390E /* View+RelativeSizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119C6C6251DDFCB008E390E /* View+RelativeSizes.swift */; };
 		2119C6CA251DDFD7008E390E /* View+RelativeSizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119C6C6251DDFCB008E390E /* View+RelativeSizes.swift */; };
@@ -41,7 +40,6 @@
 		21680D58251A472A00D1D349 /* StationStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21680D54251A467600D1D349 /* StationStruct.swift */; };
 		21680D65251A47B800D1D349 /* String+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E26E0825066A8900057E9F /* String+Utils.swift */; };
 		21680D6A251A485B00D1D349 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E26E0A25066C7000057E9F /* Constants.swift */; };
-		21680D77251A4B8000D1D349 /* StationStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21680D73251A4B7600D1D349 /* StationStatusView.swift */; };
 		21680D7C251A4BFC00D1D349 /* Image+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218D08802513625B00240C50 /* Image+Utils.swift */; };
 		21680D80251A4D0200D1D349 /* Date+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21680D7F251A4D0200D1D349 /* Date+Utils.swift */; };
 		21680D83251A4D1000D1D349 /* Date+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21680D7F251A4D0200D1D349 /* Date+Utils.swift */; };
@@ -63,6 +61,7 @@
 		21E26E0925066A8900057E9F /* String+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E26E0825066A8900057E9F /* String+Utils.swift */; };
 		21E26E0B25066C7000057E9F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E26E0A25066C7000057E9F /* Constants.swift */; };
 		21E83C7424BCB38D007CC89F /* Pods_mon_bicloo_plus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F56D3E927F8071D5B7431540 /* Pods_mon_bicloo_plus.framework */; };
+		21EE79382541B0D70084E385 /* StationStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EE79372541B0D70084E385 /* StationStatusView.swift */; };
 		21F1F2B82521FAA2001F1D69 /* StationGroupRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F1F2B72521FAA2001F1D69 /* StationGroupRow.swift */; };
 /* End PBXBuildFile section */
 
@@ -123,7 +122,6 @@
 		21680D112519F1F000D1D349 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		21680D352519FF3700D1D349 /* Station.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
 		21680D54251A467600D1D349 /* StationStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationStruct.swift; sourceTree = "<group>"; };
-		21680D73251A4B7600D1D349 /* StationStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationStatusView.swift; sourceTree = "<group>"; };
 		21680D7F251A4D0200D1D349 /* Date+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Utils.swift"; sourceTree = "<group>"; };
 		21680D86251A4D2700D1D349 /* DateFormatter+Formats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Formats.swift"; sourceTree = "<group>"; };
 		216B0EC824AB1B55007AAC30 /* Mon Bicloo Plus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mon Bicloo Plus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -143,6 +141,7 @@
 		21E26E0825066A8900057E9F /* String+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Utils.swift"; sourceTree = "<group>"; };
 		21E26E0A25066C7000057E9F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		21EB9CCE24BC9E1E000496D3 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		21EE79372541B0D70084E385 /* StationStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationStatusView.swift; sourceTree = "<group>"; };
 		21F1F2B72521FAA2001F1D69 /* StationGroupRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationGroupRow.swift; sourceTree = "<group>"; };
 		9C4424BFC586C0F7407D56C0 /* Pods-mon-bicloo-plus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mon-bicloo-plus.debug.xcconfig"; path = "Target Support Files/Pods-mon-bicloo-plus/Pods-mon-bicloo-plus.debug.xcconfig"; sourceTree = "<group>"; };
 		B7A195A9ED9FBB04CC0AE523 /* Pods-mon-bicloo-plus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mon-bicloo-plus.release.xcconfig"; path = "Target Support Files/Pods-mon-bicloo-plus/Pods-mon-bicloo-plus.release.xcconfig"; sourceTree = "<group>"; };
@@ -273,13 +272,13 @@
 			children = (
 				214F0FB224B3DA1E00896622 /* ActivityIndicator.swift */,
 				218857D92502721A0064AC34 /* ColoredToggleStyle.swift */,
-				2119C6BD251DDAB1008E390E /* CumulativeCircularProgress.swift */,
 				21E26DFC25065AB000057E9F /* IntroductionDetailView.swift */,
 				21D946A124FFE5DB00E58C1E /* MapView.swift */,
 				214F0FB024B3D1BE00896622 /* MapViewRepresentable.swift */,
 				2144292924AFE48C0083D5D7 /* SearchBar.swift */,
 				21F1F2B72521FAA2001F1D69 /* StationGroupRow.swift */,
 				2144292F24AFF0500083D5D7 /* StationRow.swift */,
+				21EE79372541B0D70084E385 /* StationStatusView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -291,7 +290,7 @@
 				21680D0F2519F1F000D1D349 /* Assets.xcassets */,
 				21680D112519F1F000D1D349 /* Info.plist */,
 				21680D54251A467600D1D349 /* StationStruct.swift */,
-				21680D73251A4B7600D1D349 /* StationStatusView.swift */,
+				2119C6BD251DDAB1008E390E /* CumulativeCircularProgress.swift */,
 			);
 			path = AvailabilityChecker;
 			sourceTree = "<group>";
@@ -383,7 +382,7 @@
 		216B0EC024AB1B55007AAC30 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1200;
+				LastSwiftUpdateCheck = 1210;
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Cédric Derache";
 				TargetAttributes = {
@@ -481,7 +480,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				21680D77251A4B8000D1D349 /* StationStatusView.swift in Sources */,
 				21680D7C251A4BFC00D1D349 /* Image+Utils.swift in Sources */,
 				21680D58251A472A00D1D349 /* StationStruct.swift in Sources */,
 				21680D0E2519F1ED00D1D349 /* AvailabilityChecker.swift in Sources */,
@@ -502,11 +500,11 @@
 				21680D80251A4D0200D1D349 /* Date+Utils.swift in Sources */,
 				212ACC4124AB1CD50008C6AC /* ListStationsView.swift in Sources */,
 				218D08812513625B00240C50 /* Image+Utils.swift in Sources */,
-				2119C6BE251DDAB1008E390E /* CumulativeCircularProgress.swift in Sources */,
 				21E26E0B25066C7000057E9F /* Constants.swift in Sources */,
 				2107E32924B672E300CAC00F /* StationsGroupsView.swift in Sources */,
 				2107E32D24B6806D00CAC00F /* SwiftUI+Utils.swift in Sources */,
 				2126759A24AFB5140058FDF1 /* StationView.swift in Sources */,
+				21EE79382541B0D70084E385 /* StationStatusView.swift in Sources */,
 				218857DA2502721A0064AC34 /* ColoredToggleStyle.swift in Sources */,
 				21E26DFD25065AB000057E9F /* IntroductionDetailView.swift in Sources */,
 				214F0FB324B3DA1E00896622 /* ActivityIndicator.swift in Sources */,

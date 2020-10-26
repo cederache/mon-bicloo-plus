@@ -51,8 +51,11 @@ class ServerManager {
                 do {
                     let stationsRecords = try decoder.decode(StationsRecords.self, from: response.data ?? Data())
                     
-                    for station in stationsRecords.records.map({$0.fields}) {
-                        station.save()
+                    // Save stations in the same transactions
+                    Station.modifyIfNeeded {
+                        for station in stationsRecords.records.map({$0.fields}) {
+                            station.saveInWrite()
+                        }
                     }
                     
                     WidgetCenter.shared.reloadAllTimelines()
