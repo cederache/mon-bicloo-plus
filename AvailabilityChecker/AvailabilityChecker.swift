@@ -100,10 +100,15 @@ struct AvailabilityCheckerEntryView: View {
          ProgressValue(value: station.nbDocksAvailable, color: .blue),
          ProgressValue(value: station.nbDocksOoo, color: .red)]
     }
+    
+    var tooOld: Bool {
+        // More than 10 minutes
+        return Date().timeIntervalSince(entry.date) > 60*10
+    }
 
     var body: some View {
         VStack(alignment: .center) {
-            if displayableStations.count == 0 {
+            if tooOld || displayableStations.count == 0 {
                 Spacer()
                 Text("Problème de récupération des données")
                     .italic()

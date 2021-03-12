@@ -741,7 +741,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cederache.mon-bicloo-plus.ios";
 				PRODUCT_NAME = "Mon Bicloo Plus";
-				PROVISIONING_PROFILE_SPECIFIER = "Bloc in Bloc - Dev All";
+				PROVISIONING_PROFILE_SPECIFIER = "- Dev All (com.*)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -765,7 +765,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cederache.mon-bicloo-plus.ios";
 				PRODUCT_NAME = "Mon Bicloo Plus";
-				PROVISIONING_PROFILE_SPECIFIER = "Bloc in Bloc - Dev All";
+				PROVISIONING_PROFILE_SPECIFIER = "- Dev All (com.*)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
